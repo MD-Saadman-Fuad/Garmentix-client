@@ -1,15 +1,42 @@
 import React from 'react';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import Logo from './Logo';
+import useAuth from '../Hooks/useAuth';
 
 const Navbar = () => {
-    const links = <>
-        <li><NavLink to="">Services</NavLink></li>
-        <li><NavLink to="/">About Us</NavLink></li>
-        <li><NavLink to="/">Send Parcel</NavLink></li>
-        <li><NavLink to="/">Coverage</NavLink></li>
+    const { user, logOut } = useAuth();
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.log(error));
+    };
+    // const links = <>
+    // <li><NavLink to="">Services</NavLink></li>
+    // <li><NavLink to="/">About Us</NavLink></li>
+    // <li><NavLink to="/">Send Parcel</NavLink></li>
+    // <li><NavLink to="/">Coverage</NavLink></li>
 
-        {/*  */}
+    //     {/*  */}
+
+    //     {
+    //         user && <><li><NavLink to="/dashboard/my-parcels">My Parcels</NavLink></li></>
+    //     }
+    // </>
+    const links = <>
+        <li><NavLink to="">Home</NavLink></li>
+        <li><NavLink to="">All Products</NavLink></li>
+        {user ? <>
+            <li><NavLink to="/">DashBoard</NavLink></li>
+            <li><NavLink to="/">Avatar</NavLink></li>
+            <button onClick={handleLogOut}><NavLink to="/login">Logout</NavLink></button>
+        </>
+            :
+            <>
+                <li><NavLink to="/">About Us</NavLink></li>
+                <li><NavLink to="/">Contact</NavLink></li>
+                <li><NavLink to="/login">Login</NavLink></li>
+                <li><NavLink to="/register">Register</NavLink></li>
+            </>}
     </>
     return (
         <div className="navbar bg-base-100 shadow-sm">
@@ -26,15 +53,13 @@ const Navbar = () => {
                 </div>
                 <Logo />
             </div>
-            <div className="navbar-center hidden lg:flex">
+            <div className="navbar-end hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
                     {links}
-                    
+
                 </ul>
             </div>
-            <div className="navbar-end">
-                <a className="btn">Login</a>
-            </div>
+            
         </div>
     );
 };

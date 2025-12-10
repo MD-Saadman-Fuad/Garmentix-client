@@ -1,12 +1,12 @@
 import React from 'react';
-import { motion, AnimatePresence } from "framer-motion";
+import {motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import banner1 from '../../assets/Slide1.jpg';
-import banner2 from '../../assets/Slide2.jpg';
-import banner3 from '../../assets/Slide3.jpg';
-import Logo from '../../shared/Logo';
+import banner1 from '../../../assets/Slide1.jpg';
+import banner2 from '../../../assets/Slide2.jpg';
+import banner3 from '../../../assets/Slide3.jpg';
+import Logo from '../../../shared/Logo';
 const images = [banner1, banner2, banner3];
 const Banner = () => {
     const [index, setIndex] = useState(0);
@@ -43,13 +43,13 @@ const Banner = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.2 }}
                 >
-                    <div className="flex items-center justify-center mb-6 w-full scale-200 md:scale-[2] -ml-4">
+                    <div className="flex items-center justify-center mb-6 w-full scale-300 md:scale-[3] -ml-4 md:-ml-8">
                         <Logo></Logo>
                     </div>
                     <p className="text-sm md:text-base text-gray-200 tracking-widest uppercase mb-4 drop-shadow-lg">
                         Premium Fashion Collection
                     </p>
-                    <h1 className="text-5xl md:text-7xl font-bold text-white drop-shadow-2xl mb-6">
+                    <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-2xl mb-6">
                         Elevate Your Style
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-100 mt-4 drop-shadow-lg mb-4 max-w-3xl">
