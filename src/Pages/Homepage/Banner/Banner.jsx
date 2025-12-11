@@ -1,12 +1,14 @@
 import React from 'react';
-import {motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import banner1 from '../../../assets/Slide1.jpg';
 import banner2 from '../../../assets/Slide2.jpg';
 import banner3 from '../../../assets/Slide3.jpg';
-import Logo from '../../../shared/Logo';
+// import Logo from '../../../shared/Logo';
+import logo from '../../../assets/logo.png';
+import { Link } from 'react-router';
 const images = [banner1, banner2, banner3];
 const Banner = () => {
     const [index, setIndex] = useState(0);
@@ -44,7 +46,12 @@ const Banner = () => {
                     transition={{ duration: 1, delay: 0.2 }}
                 >
                     <div className="flex items-center justify-center mb-6 w-full scale-300 md:scale-[3] -ml-4 md:-ml-8">
-                        <Logo></Logo>
+                        <Link to="/">
+                            <div className='flex items-end '>
+                                <img className="w-12 h-12" src={logo} alt="Logo" />
+                                <h3 className='text-2xl text-white font-bold -ms-2 mb-1'>Garmentix</h3>
+                            </div>
+                        </Link>
                     </div>
                     <p className="text-sm md:text-base text-gray-200 tracking-widest uppercase mb-4 drop-shadow-lg">
                         Premium Fashion Collection

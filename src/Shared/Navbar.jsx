@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router';
 import Logo from './Logo';
 import useAuth from '../Hooks/useAuth';
+import userPNG from '../assets/user.png'
 
 const Navbar = () => {
     const { user, logOut } = useAuth();
@@ -10,30 +11,30 @@ const Navbar = () => {
             .then(() => { })
             .catch(error => console.log(error));
     };
-    // const links = <>
-    // <li><NavLink to="">Services</NavLink></li>
-    // <li><NavLink to="/">About Us</NavLink></li>
-    // <li><NavLink to="/">Send Parcel</NavLink></li>
-    // <li><NavLink to="/">Coverage</NavLink></li>
-
-    //     {/*  */}
-
-    //     {
-    //         user && <><li><NavLink to="/dashboard/my-parcels">My Parcels</NavLink></li></>
-    //     }
-    // </>
+    
     const links = <>
         <li><NavLink to="">Home</NavLink></li>
         <li><NavLink to="">All Products</NavLink></li>
         {user ? <>
-            <li><NavLink to="/">DashBoard</NavLink></li>
-            <li><NavLink to="/">Avatar</NavLink></li>
-            <button onClick={handleLogOut}><NavLink to="/login">Logout</NavLink></button>
+            <li><NavLink to="/">Dashboard</NavLink></li>
+            
+            <li onClick={handleLogOut}><NavLink to="/login">Logout</NavLink></li>
+            <img
+                className='w-12 h-12 rounded-full  border-2 border-emerald-300'
+                src={user.photoURL || userPNG}
+                alt={user.displayName || "User"}
+                onError={(e) => {
+                    console.log("Image failed to load:", user.photoURL);
+                    e.target.src = userPNG;
+                }}
+                crossOrigin="anonymous"
+                referrerPolicy="no-referrer"
+            />
         </>
             :
             <>
-                <li><NavLink to="/">About Us</NavLink></li>
-                <li><NavLink to="/">Contact</NavLink></li>
+                <li><NavLink to="/aboutus">About Us</NavLink></li>
+                <li><NavLink to="/contact">Contact</NavLink></li>
                 <li><NavLink to="/login">Login</NavLink></li>
                 <li><NavLink to="/register">Register</NavLink></li>
             </>}
@@ -53,13 +54,13 @@ const Navbar = () => {
                 </div>
                 <Logo />
             </div>
-            <div className="navbar-end hidden lg:flex">
-                <ul className="menu menu-horizontal px-1">
+            <div className="navbar-end hidden lg:flex items-center  justify-end">
+                <ul className="menu menu-horizontal px-1 flex items-center gap-4">
                     {links}
 
                 </ul>
             </div>
-            
+
         </div>
     );
 };

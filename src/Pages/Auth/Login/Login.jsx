@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../../Hooks/useAuth';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from '../SocialLogin/SocialLogin';
-import Logo from '../../../shared/Logo';
+import Logo from '../../../Shared/Logo';
+import Swal from 'sweetalert2';
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { signInUser } = useAuth();
@@ -16,6 +17,13 @@ const Login = () => {
             .then(result => {
                 const loggedUser = result.user;
                 console.log(loggedUser);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Successfully Logged In",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 navigate(location?.state || '/')
             })
             .catch(error => {
@@ -46,7 +54,7 @@ const Login = () => {
                     }
                     {/* extra */}
                     <div><a class="link link-hover">Forgot password?</a></div>
-                    <button class="btn btn-info  text-black mt-4">Login</button>
+                    <button class="btn btn-info  text-white mt-4">Login</button>
                 </fieldset>
                 <p>New to Garmentix? <Link state={location.state}
                     className="text-primary" to="/register">Register</Link></p>

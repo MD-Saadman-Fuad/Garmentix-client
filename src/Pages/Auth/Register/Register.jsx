@@ -4,6 +4,8 @@ import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import useAuth from '../../../Hooks/useAuth';
+import Logo from '../../../Shared/Logo';
+import Swal from 'sweetalert2';
 
 const Register = () => {
 
@@ -27,13 +29,20 @@ const Register = () => {
                 const url = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_hosting_key}`;
                 axios.post(url, formData).then(res => {
                     console.log('imgbb response', res.data.data.url);
-                    const userProfile ={
+                    const userProfile = {
                         displayName: data.name,
                         photoURL: res.data.data.url
                     }
                     updateUserProfile(userProfile)
                         .then(() => {
                             console.log('User profile updated');
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "Successfully Registered",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
                             navigate(location?.state || '/');
                         })
                         .catch(error => {
@@ -53,6 +62,9 @@ const Register = () => {
 
     return (
         <div class="card bg-base-100 w-full p-10 mx-auto max-w-sm shrink-0 shadow-2xl">
+            <div className="flex justify-center -ml-10" >
+                <Logo className="mb-8  max-w-32 mx-auto"></Logo>
+            </div>
             <h3 className="text-3xl font-bold text-center">Create an Account</h3>
             <p className="text-center">Please register to your account</p>
             <form onSubmit={handleSubmit(handleRegistration)}>
@@ -93,10 +105,10 @@ const Register = () => {
                         errors.password?.type === 'pattern' && <span className="text-red-500">Password must have one uppercase, one lowercase, one number and one special character</span>
                     }
                     <div><a class="link link-hover">Forgot password?</a></div>
-                    <button class="btn btn-neutral bg-primary text-black mt-4">Register</button>
+                    <button class="btn btn-neutral bg-primary text-white mt-4">Register</button>
                 </fieldset>
-                <p>Already have an Account? <Link 
-                state={location.state} className="text-primary" to="/login">Login</Link></p>
+                <p>Already have an Account? <Link
+                    state={location.state} className="text-primary" to="/login">Login</Link></p>
 
             </form>
             <SocialLogin />
