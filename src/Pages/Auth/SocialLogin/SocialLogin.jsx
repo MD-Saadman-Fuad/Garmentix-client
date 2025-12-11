@@ -1,5 +1,5 @@
 import React from 'react';
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 
