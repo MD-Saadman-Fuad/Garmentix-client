@@ -13,8 +13,8 @@ const Navbar = () => {
     };
     
     const links = <>
-        <li><NavLink to="">Home</NavLink></li>
-        <li><NavLink to="">All Products</NavLink></li>
+        <li><NavLink to="/">Home</NavLink></li>
+        <li><NavLink to="/products">All Products</NavLink></li>
         {user ? <>
             <li><NavLink to="/">Dashboard</NavLink></li>
             

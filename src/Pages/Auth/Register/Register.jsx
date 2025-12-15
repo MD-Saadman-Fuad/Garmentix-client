@@ -83,8 +83,17 @@ const Register = () => {
 
                     {errors.photo?.type === 'required' && <span className="text-red-500">Photo is required</span>}
 
+                    {/* Role */}
+                    <label class="label">Role</label>
+                    <select {...register('role', { required: true })} class="select select-bordered w-full">
+                        <option value="">Select your role</option>
+                        <option value="buyer">Buyer</option>
+                        <option value="manager">Manager</option>
+                    </select>
+                    {errors.role?.type === 'required' && <span className="text-red-500">Role is required</span>}
 
-
+                    {/* Status - Hidden Field */}
+                    <input type="hidden" {...register('status')} value="pending" />
 
                     {/* email */}
                     <label class="label">Email</label>
@@ -111,7 +120,7 @@ const Register = () => {
                     state={location.state} className="text-primary" to="/login">Login</Link></p>
 
             </form>
-            <SocialLogin />
+            <SocialLogin className="w-full"/>
         </div>
     );
 };

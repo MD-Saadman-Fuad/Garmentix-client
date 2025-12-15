@@ -16,9 +16,9 @@ import ReviewCard from './ReviewCard';
 
 const Reviews = ({ reviewsPromise }) => {
     const reviews = use(reviewsPromise);
-    console.log(reviews);
+    // console.log(reviews);
     return (
-        <div className='my-24 border-b border-t border-dotted pb-20 pt-10 overflow-hidden'>
+        <div className='my-2   overflow-hidden'>
             <div className='text-center mb-24 px-4'>
                 <h3 className="text-3xl md:text-4xl text-center font-bold my-8">What Our Clients Say</h3>
                 <p className='max-w-3xl mx-auto text-gray-600 leading-relaxed'>Trusted by garment manufacturers and buyers worldwide, our clients consistently praise real-time production tracking, seamless workflow management, and exceptional support. Discover how factory managers and buyers have improved efficiency, reduced delays, and achieved 99% on-time delivery with Garmentix.</p>
