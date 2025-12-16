@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProductsCard from './ProductsCard/ProductsCard';
-import useAuth from '../../Hooks/useAuth';
+// import useAuth from '../../Hooks/useAuth';
 
 const AllProducts = () => {
     const [products, setProducts] = useState([]);

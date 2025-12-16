@@ -10,6 +10,11 @@ import Contact from '../Pages/Contact/Contact';
 import ProductsLayout from '../Layouts/ProductsLayout';
 import AllProducts from '../Pages/Products/AllProducts';
 import ProductDetails from '../Pages/Products/ProductsDetail/ProductDetails';
+import Dashboard from '../Pages/Dashboard/Dashboard';
+import Dashboardlayout from '../Layouts/Dashboardlayout';
+import MyParcels from '../Pages/Dashboard/MyParcels/MyParcels';
+import Myprofile from '../Pages/Dashboard/MyProfile/Myprofile';
+import OrderTrackng from '../Pages/Dashboard/OrderTracking/OrderTrackng';
 
 export const router = createBrowserRouter([
     {
@@ -57,6 +62,28 @@ export const router = createBrowserRouter([
                 Component: ProductDetails,
             }
 
+        ]
+    },
+    {
+        path: "dashboard",
+        Component: Dashboardlayout,
+        children: [
+            {
+                path: "/dashboard",
+                Component: Dashboard,
+            },
+            {
+                path: "/dashboard/my-orders/:email",
+                Component: MyParcels,
+            },
+            {
+                path: "/dashboard/my-profile",
+                Component: Myprofile,
+            },
+            {
+                path: "/dashboard/track-orders",
+                Component: OrderTrackng,
+            }
         ]
     }
 ]);

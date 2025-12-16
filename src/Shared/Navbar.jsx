@@ -11,13 +11,13 @@ const Navbar = () => {
             .then(() => { })
             .catch(error => console.log(error));
     };
-    
+
     const links = <>
         <li><NavLink to="/">Home</NavLink></li>
         <li><NavLink to="/products">All Products</NavLink></li>
         {user ? <>
-            <li><NavLink to="/">Dashboard</NavLink></li>
-            
+            <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+
             <li onClick={handleLogOut}><NavLink to="/login">Logout</NavLink></li>
             <img
                 className='w-12 h-12 rounded-full  border-2 border-emerald-300'
