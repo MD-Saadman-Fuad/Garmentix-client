@@ -42,7 +42,7 @@ const Dashboardlayout = () => {
                         {/* List item */}
                         <li>
 
-                            <NavLink to={`/dashboard/my-orders/${user?.email}`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels">
+                            <NavLink to={`/dashboard/my-orders/${user?.email}`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Orders">
 
                                 <FaBoxOpen /> <span className="is-drawer-close:hidden">My Order</span>
 
@@ -50,7 +50,7 @@ const Dashboardlayout = () => {
                         </li>
                         <li>
 
-                            <NavLink to="/dashboard/track-orders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels">
+                            <NavLink to="/dashboard/track-orders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Track Orders">
 
                                 <FaTruckRampBox /> <span className="is-drawer-close:hidden">Track Orders</span>
 
@@ -58,7 +58,7 @@ const Dashboardlayout = () => {
                         </li>
                         <li>
 
-                            <NavLink to="/dashboard/my-profile" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Parcels">
+                            <NavLink to="/dashboard/my-profile" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">
 
                                 <CgProfile /> <span className="is-drawer-close:hidden">My Profile</span>
 

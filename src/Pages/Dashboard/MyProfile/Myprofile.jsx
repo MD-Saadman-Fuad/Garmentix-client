@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import useAuth from '../../../Hooks/useAuth';
 import Swal from 'sweetalert2';
+import userPNG from '../../../assets/user.png';
 
 const Myprofile = () => {
     const { user, logOut } = useAuth();
@@ -59,11 +60,17 @@ const Myprofile = () => {
                         {/* Profile Picture */}
                         <div className="flex flex-col md:flex-row items-center md:items-center gap-8">
                             <div className="avatar">
-                                <div className="w-48 h-48 rounded-full ring-4 ring-offset-4 shadow-2xl" style={{ ringColor: '#5089e6' }}>
+                                <div className="w-48 h-48 rounded-full ring-4 ring-offset-4 shadow-2xl" style={{ '--tw-ring-color': '#5089e6' }}>
                                     <img
-                                        src={user?.photoURL || 'https://via.placeholder.com/150'}
+                                        src={user?.photoURL || userPNG}
                                         alt={user?.displayName || 'User'}
-                                        className="object-cover"
+                                        className="object-cover w-full h-full rounded-full"
+                                        onError={(e) => {
+                                            console.log("Image failed to load:", user?.photoURL);
+                                            e.target.src = userPNG;
+                                        }}
+                                        crossOrigin="anonymous"
+                                        referrerPolicy="no-referrer"
                                     />
                                 </div>
                             </div>
