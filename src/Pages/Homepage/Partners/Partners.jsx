@@ -21,6 +21,9 @@ const images = [image1, image2, image3, image4, image5, image6, image7, image8];
 const Helped = () => {
     return (
         <div className='my-2 p-5 border-b border-dotted'>
+            <div>
+                <h3 className='text-5xl mb-3 font-bold text-center'>Our Partners</h3>
+            </div>
             {
                 <Marquee pauseOnHover={true} gradient={false} speed={50}>
                     {

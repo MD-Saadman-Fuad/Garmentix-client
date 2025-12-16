@@ -12,7 +12,7 @@ const MyParcels = () => {
     const { data: orders = [], refetch, isLoading } = useQuery({
         queryKey: ['myParcels', user?.email],
         queryFn: async () => {
-            const res = await axios.get(`http://localhost:5000/orders?email=${user?.email}`);
+            const res = await axios.get(`${import.meta.env.VITE_backend_url}/orders?email=${user?.email}`);
             return res.data;
         },
         enabled: !!user?.email
@@ -34,7 +34,7 @@ const MyParcels = () => {
             confirmButtonText: 'Yes, cancel it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`http://localhost:5000/orders/${orderId}`, {
+                fetch(`${import.meta.env.VITE_backend_url}/orders/${orderId}`, {
                     method: 'DELETE'
                 })
                     .then(res => res.json())

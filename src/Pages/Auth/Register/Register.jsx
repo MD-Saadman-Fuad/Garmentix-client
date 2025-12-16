@@ -16,9 +16,31 @@ const Register = () => {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const handleStoreUserData = async (data) => {
+        const userData = {
+            name: data.name,
+            email: data.email,
+            photoURL: data.photoURL,
+            role: data.role || 'buyer',
+            status: data.status || 'active',
+            password: data.password,
+            loginMethod: 'local',
+        }
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_backend_url}/users`, userData);
+            console.log('User data stored successfully:', response.data);
+        }
+        catch (error) {
+            console.error('Error storing user data:', error);
+        }
+    }
+        ;
+
     const handleRegistration = (data) => {
-        console.log(data);
+        // console.log(data);
         const profileImg = data.photo[0];
+
+
 
         registerUser(data.email, data.password)
             .then(result => {
@@ -33,6 +55,10 @@ const Register = () => {
                         displayName: data.name,
                         photoURL: res.data.data.url
                     }
+                    data.photoURL = res.data.data.url;
+                    // data.name = data.displayName;
+                    console.log('user profile', data);
+                    handleStoreUserData(data);
                     updateUserProfile(userProfile)
                         .then(() => {
                             console.log('User profile updated');
@@ -120,7 +146,7 @@ const Register = () => {
                     state={location.state} className="text-primary" to="/login">Login</Link></p>
 
             </form>
-            <SocialLogin className="w-full"/>
+            <SocialLogin className="w-full" />
         </div>
     );
 };

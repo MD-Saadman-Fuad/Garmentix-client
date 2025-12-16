@@ -15,6 +15,9 @@ import Dashboardlayout from '../Layouts/Dashboardlayout';
 import MyParcels from '../Pages/Dashboard/MyParcels/MyParcels';
 import Myprofile from '../Pages/Dashboard/MyProfile/Myprofile';
 import OrderTrackng from '../Pages/Dashboard/OrderTracking/OrderTrackng';
+import ManageUsers from '../Pages/Dashboard/Admin/ManageUsers';
+import AllProductsAdmin from '../Pages/Dashboard/Admin/AllProductsAdmin';
+import AllOrders from '../Pages/Dashboard/Admin/AllOrders';
 
 export const router = createBrowserRouter([
     {
@@ -36,12 +39,12 @@ export const router = createBrowserRouter([
         ]
     },
     {
-        path: "/", 
+        path: "/",
         Component: AuthLayout,
         children: [
             {
-               path: 'login', 
-               Component: Login,
+                path: 'login',
+                Component: Login,
             },
             {
                 path: 'register',
@@ -69,21 +72,34 @@ export const router = createBrowserRouter([
         Component: Dashboardlayout,
         children: [
             {
-                path: "/dashboard",
+                path: "",
                 Component: Dashboard,
             },
             {
-                path: "/dashboard/my-orders/:email",
+                path: "my-orders/:email",
                 Component: MyParcels,
             },
             {
-                path: "/dashboard/my-profile",
+                path: "my-profile",
                 Component: Myprofile,
             },
             {
-                path: "/dashboard/track-orders",
+                path: "track-orders",
                 Component: OrderTrackng,
-            }
+            },
+            {
+                path: "manage-users",
+                Component: ManageUsers
+            },
+            {
+                path: "all-products",
+                Component: AllProductsAdmin,
+            },
+            {
+                path: "all-orders",
+                Component: AllOrders,
+            },
+
         ]
     }
 ]);

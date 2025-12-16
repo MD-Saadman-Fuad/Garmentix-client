@@ -26,7 +26,7 @@ const ProductDetails = () => {
         // If product not in state, fetch from API
         if (!location.state?.product) {
             setLoading(true);
-            fetch(`http://localhost:5000/products/${id}`)
+            fetch(`${import.meta.env.VITE_backend_url}/products/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     setProduct(data);
@@ -42,7 +42,7 @@ const ProductDetails = () => {
     // Fetch user role from database
     useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:5000/users/${user.email}`)
+            fetch(`${import.meta.env.VITE_backend_url}/users/${user.email}`)
                 .then(res => res.json())
                 .then(data => {
                     setUserRole(data.role);
@@ -144,7 +144,7 @@ const ProductDetails = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/orders', {
+            const response = await fetch(`${import.meta.env.VITE_backend_url}/orders`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

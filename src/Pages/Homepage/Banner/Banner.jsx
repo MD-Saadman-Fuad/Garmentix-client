@@ -48,8 +48,8 @@ const Banner = () => {
                     <div className="flex items-center justify-center mb-6 w-full scale-300 md:scale-[3] -ml-4 md:-ml-8">
                         <Link to="/">
                             <div className='flex items-end '>
-                                <img className="w-12 h-12" src={logo} alt="Logo" />
-                                <h3 className='text-2xl text-white font-bold -ms-2 mb-1'>Garmentix</h3>
+                                <img className="w-8 h-8 md:w-12 md:h-12" src={logo} alt="Logo" />
+                                <h3 className=' md:text-2xl text-white font-bold -ms-2 mb-1'>Garmentix</h3>
                             </div>
                         </Link>
                     </div>

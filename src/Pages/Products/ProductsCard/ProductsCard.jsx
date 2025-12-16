@@ -23,7 +23,7 @@ const ProductsCard = ({ product }) => {
     // Fetch user role from database
     useEffect(() => {
         if (user?.email) {
-            fetch(`http://localhost:5000/users/${user.email}`)
+            fetch(`${import.meta.env.VITE_backend_url}/users/${user.email}`)
                 .then(res => res.json())
                 .then(data => {
                     setUserRole(data.role);
@@ -125,7 +125,7 @@ const ProductsCard = ({ product }) => {
         };
 
         try {
-            const response = await fetch('http://localhost:5000/orders', {
+            const response = await fetch(`${import.meta.env.VITE_backend_url}/orders`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

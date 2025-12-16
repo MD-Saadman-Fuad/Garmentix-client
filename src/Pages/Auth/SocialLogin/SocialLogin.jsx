@@ -2,17 +2,42 @@ import React from 'react';
 import useAuth from '../../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const SocialLogin = () => {
     const { signInWithGoogle } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-
+    const handleStoreUserData = async (user) => {
+        const userData = {
+            name: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            role: 'buyer',
+            status: 'active',
+            loginMethod: 'google',
+            password: '',
+        }
+        try {
+            // Try to POST new user, backend should handle duplicate emails with upsert or return existing
+            const response = await axios.post(`${import.meta.env.VITE_backend_url}/users`, userData);
+            console.log('User data stored/updated successfully:', response.data);
+        }
+        catch (error) {
+            // If user already exists, that's okay - they can still log in
+            if (error.response?.status === 409 || error.response?.data?.message?.includes('duplicate')) {
+                console.log('User already exists, continuing with login');
+            } else {
+                console.error('Error storing user data:', error);
+            }
+        }
+    };
     const handleGoogleSignIn = () => {
         signInWithGoogle()
             .then(result => {
                 const user = result.user;
-                console.log(user);
+                console.log('social', user);
+                handleStoreUserData(user);
                 Swal.fire({
                     position: "top-end",
                     icon: "success",

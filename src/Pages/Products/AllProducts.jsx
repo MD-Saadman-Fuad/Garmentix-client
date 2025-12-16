@@ -9,7 +9,7 @@ const AllProducts = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch('http://localhost:5000/products')
+        fetch(`${import.meta.env.VITE_backend_url}/products`)
             .then(res => res.json())
             .then(data => {
                 setProducts(data);
