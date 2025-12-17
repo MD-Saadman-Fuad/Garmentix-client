@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router';
 import { CgProfile } from "react-icons/cg";
-import { FaBoxOpen } from "react-icons/fa6";
+import { FaBoxOpen, FaShuffle } from "react-icons/fa6";
 import { FaTruckRampBox } from "react-icons/fa6";
 import { IoHomeSharp } from "react-icons/io5";
 import useAuth from '../Hooks/useAuth';
+import { FaShoppingCart, FaTruck, FaUsers } from 'react-icons/fa';
+import { MdAddToPhotos, MdLibraryAddCheck, MdOutlinePendingActions } from "react-icons/md";
 
 const Dashboardlayout = () => {
-    const {user} = useAuth();
+    const [userData, setUserData] = React.useState({});
+    const { user } = useAuth();
+    useEffect(() => {
+        fetch(`${import.meta.env.VITE_backend_url}/users/${user?.email}`)
+            .then(res => res.json())
+            .then(data => {
+                // console.log('User data:', data);
+                setUserData(data);
+            })
+            .catch(err => {
+                console.error('Error fetching user data:', err);
+            });
+    }, [user]);
+    // console.log('ROLE', userData.role);
     return (
         <div className="drawer lg:drawer-open">
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -40,22 +55,92 @@ const Dashboardlayout = () => {
                         </li>
 
                         {/* List item */}
-                        <li>
+                        {
+                            userData.role === 'buyer' ?
+                                (<div>
+                                    <li>
 
-                            <NavLink to={`/dashboard/my-orders/${user?.email}`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Orders">
+                                        <NavLink to={`/dashboard/my-orders/${user?.email}`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Orders">
 
-                                <FaBoxOpen /> <span className="is-drawer-close:hidden">My Order</span>
+                                            <FaBoxOpen /> <span className="is-drawer-close:hidden">My Order</span>
 
-                            </NavLink>
-                        </li>
-                        <li>
+                                        </NavLink>
+                                    </li>
+                                    <li>
 
-                            <NavLink to="/dashboard/track-orders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Track Orders">
+                                        <NavLink to="/dashboard/track-orders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Track Orders">
 
-                                <FaTruckRampBox /> <span className="is-drawer-close:hidden">Track Orders</span>
+                                            <FaTruckRampBox /> <span className="is-drawer-close:hidden">Track Orders</span>
 
-                            </NavLink>
-                        </li>
+                                        </NavLink>
+                                    </li>
+                                </div>) : <></>
+                        }
+                        {
+                            userData.role === 'manager' ?
+                                <div>
+                                    <li>
+
+                                        <NavLink to={`/dashboard/add-products`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Add Products">
+
+                                            <MdAddToPhotos /> <span className="is-drawer-close:hidden">Add Products</span>
+
+                                        </NavLink>
+                                    </li><li>
+
+                                        <NavLink to={`/dashboard/manage-products`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Products">
+
+                                            <FaShuffle /> <span className="is-drawer-close:hidden">Manage Products</span>
+
+                                        </NavLink>
+                                    </li><li>
+
+                                        <NavLink to={`/dashboard/pending-orders`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Pending Orders">
+
+                                            <MdOutlinePendingActions /> <span className="is-drawer-close:hidden">Pending Orders</span>
+
+                                        </NavLink>
+                                    </li><li>
+
+                                        <NavLink to={`/dashboard/approved-orders`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Approved Orders">
+
+                                            <MdLibraryAddCheck /> <span className="is-drawer-close:hidden">Approved Orders</span>
+
+                                        </NavLink>
+                                    </li>
+                                </div> : <></>
+                        }
+                        {
+                            userData.role === 'admin' ?
+                            <div>
+                                <li>
+
+                                        <NavLink to={`/dashboard/manage-users`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Users">
+
+                                            <FaUsers /> <span className="is-drawer-close:hidden">Manage Users</span>
+
+                                        </NavLink>
+                                    </li>
+                                    <li>
+
+                                        <NavLink to={`/dashboard/all-products`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="All Products">
+
+                                            <FaShoppingCart /> <span className="is-drawer-close:hidden">All Products</span>
+
+                                        </NavLink>
+                                    </li>
+                                    <li>
+
+                                        <NavLink to={`/dashboard/all-orders`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="All Orders">
+
+                                            <FaTruck /> <span className="is-drawer-close:hidden">All Order</span>
+
+                                        </NavLink>
+                                    </li>
+                            </div>
+                            :
+                            <></>
+                        }
                         <li>
 
                             <NavLink to="/dashboard/my-profile" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Profile">

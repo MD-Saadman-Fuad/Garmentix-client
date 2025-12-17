@@ -18,6 +18,10 @@ import OrderTrackng from '../Pages/Dashboard/OrderTracking/OrderTrackng';
 import ManageUsers from '../Pages/Dashboard/Admin/ManageUsers';
 import AllProductsAdmin from '../Pages/Dashboard/Admin/AllProductsAdmin';
 import AllOrders from '../Pages/Dashboard/Admin/AllOrders';
+import AddProduct from '../Pages/Dashboard/Manger/AddProduct';
+import ManageProducts from '../Pages/Dashboard/Manger/ManageProducts';
+import ApprovedOrders from '../Pages/Dashboard/Manger/ApprovedOrders';
+import PendingOrders from '../Pages/Dashboard/Manger/PendingOrders';
 
 export const router = createBrowserRouter([
     {
@@ -73,7 +77,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: "",
-                Component: Dashboard,
+                Component: Myprofile,
             },
             {
                 path: "my-orders/:email",
@@ -99,6 +103,22 @@ export const router = createBrowserRouter([
                 path: "all-orders",
                 Component: AllOrders,
             },
+            {
+                path: "add-products",
+                Component: AddProduct
+            },
+            {
+                path: "manage-products",
+                Component: ManageProducts,
+            },
+            {
+                path: "approved-orders",
+                Component: ApprovedOrders,
+            },
+            {
+                path: "pending-orders",
+                Component: PendingOrders,
+            }
 
         ]
     }
