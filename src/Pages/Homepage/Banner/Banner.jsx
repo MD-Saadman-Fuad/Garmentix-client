@@ -66,9 +66,9 @@ const Banner = () => {
                         Experience unmatched quality, timeless designs, and comfort that defines your identity. From everyday essentials to statement pieces.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:scale-105">
+                        <Link to="/products" className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 shadow-2xl hover:scale-105">
                             Shop Now
-                        </button>
+                        </Link>
                         {/* <button className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-gray-900 transition-all duration-300 shadow-2xl hover:scale-105">
                             View Collection
                         </button> */}

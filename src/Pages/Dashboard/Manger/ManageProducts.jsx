@@ -204,27 +204,23 @@ const ManageProducts = () => {
                 </div>
 
                 {/* Search Bar */}
-                <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-                        <div className="form-control w-full md:w-96">
-                            <div className="input-group">
-                                <input
-                                    type="text"
-                                    placeholder="Search by name or category..."
-                                    className="input input-bordered w-full"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
-                                <button className="btn" style={{ backgroundColor: '#5089e6', color: 'white' }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <div className="text-gray-700 font-semibold">
-                            Total Products: <span style={{ color: '#5089e6' }}>{filteredProducts.length}</span>
-                        </div>
+                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text font-semibold">Search Products</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Search by name or category..."
+                            className="input input-bordered"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+
+                    {/* Results Count */}
+                    <div className="mt-4 text-sm text-gray-600">
+                        Showing {filteredProducts.length} of {products.length} products
                     </div>
                 </div>
 

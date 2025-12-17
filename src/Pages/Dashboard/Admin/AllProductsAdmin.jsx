@@ -6,6 +6,7 @@ import axios from 'axios';
 const AllProductsAdmin = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const [formData, setFormData] = useState({
         productName: '',
         description: '',
@@ -138,6 +139,16 @@ const AllProductsAdmin = () => {
         }
     };
 
+    // Filter products based on search
+    const filteredProducts = products.filter(product => {
+        const searchLower = searchTerm.toLowerCase();
+        return (
+            product.productName?.toLowerCase().includes(searchLower) ||
+            product.category?.toLowerCase().includes(searchLower) ||
+            product.description?.toLowerCase().includes(searchLower)
+        );
+    });
+
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -155,15 +166,38 @@ const AllProductsAdmin = () => {
                     <p className="text-gray-600 mt-2">Manage all products in the system</p>
                 </div>
 
+                {/* Search Bar */}
+                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text font-semibold">Search Products</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Search by name, category, or description..."
+                            className="input input-bordered"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+
+                    {/* Results Count */}
+                    <div className="mt-4 text-sm text-gray-600">
+                        Showing {filteredProducts.length} of {products.length} products
+                    </div>
+                </div>
+
                 {/* Products Table */}
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                    {products.length === 0 ? (
+                    {filteredProducts.length === 0 ? (
                         <div className="text-center py-16">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-20 h-20 mx-auto text-gray-400 mb-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                             </svg>
                             <h3 className="text-xl font-semibold text-gray-700 mb-2">No Products Found</h3>
-                            <p className="text-gray-500">There are no products in the system yet.</p>
+                            <p className="text-gray-500">
+                                {searchTerm ? 'Try adjusting your search criteria.' : 'There are no products in the system yet.'}
+                            </p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
@@ -181,7 +215,7 @@ const AllProductsAdmin = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {products.map((product) => (
+                                    {filteredProducts.map((product) => (
                                         <tr key={product._id} className="hover">
                                             <td>
                                                 <div className="avatar">

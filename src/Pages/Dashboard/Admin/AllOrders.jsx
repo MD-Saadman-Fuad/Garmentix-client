@@ -8,6 +8,7 @@ const AllOrders = () => {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
+    const [selectedOrder, setSelectedOrder] = useState(null);
 
     const { data: orders = [], refetch, isLoading } = useQuery({
         queryKey: ['allOrders'],
@@ -18,7 +19,8 @@ const AllOrders = () => {
     });
 
     const handleViewDetails = (order) => {
-        navigate(`/dashboard/order-details/${order._id}`, { state: { order } });
+        setSelectedOrder(order);
+        document.getElementById('order_details_modal').showModal();
     };
 
     const handleStatusUpdate = async (orderId, currentStatus) => {
@@ -97,7 +99,7 @@ const AllOrders = () => {
         const matchesSearch =
             order._id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             order.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            order.productTitle?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            order.productName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             order.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             order.lastName?.toLowerCase().includes(searchTerm.toLowerCase());
 
@@ -217,13 +219,13 @@ const AllOrders = () => {
                                                         <div className="w-12 h-12 rounded-lg">
                                                             <img
                                                                 src={order.productImage}
-                                                                alt={order.productTitle}
+                                                                alt={order.productName}
                                                                 className="object-cover"
                                                             />
                                                         </div>
                                                     </div>
                                                     <div className="font-semibold text-gray-900 line-clamp-2">
-                                                        {order.productTitle}
+                                                        {order.productName}
                                                     </div>
                                                 </div>
                                             </td>
@@ -295,6 +297,162 @@ const AllOrders = () => {
                         </div>
                     ))}
                 </div>
+
+                {/* Order Details Modal */}
+                <dialog id="order_details_modal" className="modal">
+                    <div className="modal-box max-w-4xl">
+                        <form method="dialog">
+                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        </form>
+
+                        <h3 className="font-bold text-2xl mb-6" style={{ color: '#5089e6' }}>Order Details</h3>
+
+                        {selectedOrder && (
+                            <div className="space-y-6">
+                                {/* Order Info Header */}
+                                <div className="bg-blue-50 p-4 rounded-lg">
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                        <div>
+                                            <p className="text-sm text-gray-600">Order ID</p>
+                                            <p className="font-mono font-bold" style={{ color: '#5089e6' }}>
+                                                #{selectedOrder._id?.slice(-8).toUpperCase()}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-gray-600">Status</p>
+                                            <span className={`badge badge-lg ${getStatusBadge(selectedOrder.status)} capitalize font-semibold mt-1`}>
+                                                {selectedOrder.status}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <p className="text-sm text-gray-600">Order Date</p>
+                                            <p className="font-semibold">{formatDate(selectedOrder.orderDate)}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Customer Information */}
+                                <div>
+                                    <h4 className="font-bold text-lg mb-3">Customer Information</h4>
+                                    <div className="bg-gray-50 p-4 rounded-lg">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div>
+                                                <p className="text-sm text-gray-600">Name</p>
+                                                <p className="font-semibold">{selectedOrder.firstName} {selectedOrder.lastName}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-gray-600">Email</p>
+                                                <p className="font-semibold">{selectedOrder.email}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-gray-600">Contact Number</p>
+                                                <p className="font-semibold">{selectedOrder.contactNumber || 'N/A'}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-gray-600">Payment Options</p>
+                                                <div className="flex flex-wrap gap-1 mt-1">
+                                                    {selectedOrder.paymentOptions?.map((option, idx) => (
+                                                        <span key={idx} className="badge badge-sm" style={{ backgroundColor: '#5089e6', color: 'white' }}>
+                                                            {option}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Delivery Address */}
+                                <div>
+                                    <h4 className="font-bold text-lg mb-3">Delivery Address</h4>
+                                    <div className="bg-gray-50 p-4 rounded-lg">
+                                        <p className="font-semibold">{selectedOrder.deliveryAddress}</p>
+                                    </div>
+                                </div>
+
+                                {/* Product Details */}
+                                <div>
+                                    <h4 className="font-bold text-lg mb-3">Product Details</h4>
+                                    <div className="bg-gray-50 p-4 rounded-lg">
+                                        <div className="flex items-center gap-4 mb-4">
+                                            <div className="avatar">
+                                                <div className="w-20 h-20 rounded-lg">
+                                                    <img
+                                                        src={selectedOrder.productImage}
+                                                        alt={selectedOrder.productName}
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className="font-bold text-lg">{selectedOrder.productName}</p>
+                                                <p className="text-sm text-gray-600">Category: {selectedOrder.category}</p>
+                                            </div>
+                                        </div>
+                                        <div className="divider my-2"></div>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                            <div>
+                                                <p className="text-sm text-gray-600">Product ID</p>
+                                                <p className="font-semibold text-sm">{selectedOrder.productId}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-gray-600">Quantity</p>
+                                                <p className="font-bold text-xl" style={{ color: '#5089e6' }}>
+                                                    {selectedOrder.orderQuantity}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-gray-600">Price Per Unit</p>
+                                                <p className="font-semibold">
+                                                    ${selectedOrder.pricePerUnit?.toFixed(2)}
+                                                </p>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm text-gray-600">Total Price</p>
+                                                <p className="font-bold text-xl" style={{ color: '#5089e6' }}>
+                                                    ${selectedOrder.totalPrice?.toFixed(2)}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Additional Notes */}
+                                {selectedOrder.additionalNotes && (
+                                    <div>
+                                        <h4 className="font-bold text-lg mb-3">Additional Notes</h4>
+                                        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                                            <p className="text-gray-700">{selectedOrder.additionalNotes}</p>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Action Buttons */}
+                                <div className="flex gap-3 pt-4">
+                                    <button
+                                        onClick={() => {
+                                            document.getElementById('order_details_modal').close();
+                                            handleStatusUpdate(selectedOrder._id, selectedOrder.status);
+                                        }}
+                                        className="btn flex-1 text-white"
+                                        style={{ backgroundColor: '#5089e6' }}
+                                    >
+                                        Update Status
+                                    </button>
+                                    <button
+                                        onClick={() => document.getElementById('order_details_modal').close()}
+                                        className="btn btn-outline flex-1"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                        <button>close</button>
+                    </form>
+                </dialog>
             </div>
         </div>
     );

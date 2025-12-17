@@ -9,6 +9,7 @@ const ManageUsers = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedRole, setSelectedRole] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     const { data: users = [], refetch, isLoading } = useQuery({
         queryKey: ['allUsers'],
@@ -109,6 +110,17 @@ const ManageUsers = () => {
         return statusColors[status?.toLowerCase()] || 'badge-neutral';
     };
 
+    // Filter users based on search
+    const filteredUsers = users.filter(user => {
+        const searchLower = searchTerm.toLowerCase();
+        return (
+            user.name?.toLowerCase().includes(searchLower) ||
+            user.displayName?.toLowerCase().includes(searchLower) ||
+            user.email?.toLowerCase().includes(searchLower) ||
+            user.role?.toLowerCase().includes(searchLower)
+        );
+    });
+
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
@@ -118,7 +130,7 @@ const ManageUsers = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 py-8 px-4">
+        <div className="min-h-screen bg-linear-to-br from-blue-50 to-gray-100 py-8 px-4">
             <div className="container mx-auto max-w-7xl">
                 {/* Header */}
                 <div className="mb-8">
@@ -126,15 +138,38 @@ const ManageUsers = () => {
                     <p className="text-gray-600 mt-2">Manage user roles and permissions</p>
                 </div>
 
+                {/* Search Bar */}
+                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text font-semibold">Search Users</span>
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Search by name, email, or role..."
+                            className="input input-bordered"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+
+                    {/* Results Count */}
+                    <div className="mt-4 text-sm text-gray-600">
+                        Showing {filteredUsers.length} of {users.length} users
+                    </div>
+                </div>
+
                 {/* Users Table */}
                 <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-                    {users.length === 0 ? (
+                    {filteredUsers.length === 0 ? (
                         <div className="text-center py-16">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-20 h-20 mx-auto text-gray-400 mb-4">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                             </svg>
                             <h3 className="text-xl font-semibold text-gray-700 mb-2">No Users Found</h3>
-                            <p className="text-gray-500">There are no users in the system yet.</p>
+                            <p className="text-gray-500">
+                                {searchTerm ? 'Try adjusting your search criteria.' : 'There are no users in the system yet.'}
+                            </p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
@@ -150,7 +185,7 @@ const ManageUsers = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {users.map((user) => (
+                                    {filteredUsers.map((user) => (
                                         <tr key={user._id || user.email} className="hover">
                                             <td>
                                                 <div className="avatar">
