@@ -10,6 +10,19 @@ const PendingOrders = () => {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState('');
+    const [userStatus, setUserStatus] = useState(null);
+
+    // Fetch user status
+    React.useEffect(() => {
+        if (user?.email) {
+            fetch(`${import.meta.env.VITE_backend_url}/users/${user.email}`)
+                .then(res => res.json())
+                .then(data => {
+                    setUserStatus(data.status);
+                })
+                .catch(err => console.error(err));
+        }
+    }, [user]);
 
     // Fetch pending orders for manager's products
     const { data: orders = [], isLoading } = useQuery({
@@ -88,6 +101,20 @@ const PendingOrders = () => {
     });
 
     const handleApprove = (order) => {
+        // Check if manager is suspended
+        if (userStatus === 'suspended') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Account Suspended',
+                html: `
+                    <p class="mb-2">Your account has been suspended and you cannot approve orders.</p>
+                    <p class="text-sm text-gray-600">Please contact support for more information.</p>
+                `,
+                confirmButtonColor: '#5089e6'
+            });
+            return;
+        }
+
         Swal.fire({
             title: 'Approve Order?',
             text: `Approve order #${order._id} from ${order.email}?`,
@@ -104,6 +131,20 @@ const PendingOrders = () => {
     };
 
     const handleReject = (order) => {
+        // Check if manager is suspended
+        if (userStatus === 'suspended') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Account Suspended',
+                html: `
+                    <p class="mb-2">Your account has been suspended and you cannot reject orders.</p>
+                    <p class="text-sm text-gray-600">Please contact support for more information.</p>
+                `,
+                confirmButtonColor: '#5089e6'
+            });
+            return;
+        }
+
         Swal.fire({
             title: 'Reject Order?',
             text: `Reject order #${order._id} from ${order.email}?`,

@@ -218,6 +218,14 @@ const MyParcels = () => {
                                                     >
                                                         View
                                                     </button>
+                                                    {/* Track Order button */}
+                                                    <button
+                                                        onClick={() => window.location.href = `/dashboard/track-order/${order._id}`}
+                                                        className="btn btn-sm btn-outline"
+                                                        style={{ borderColor: '#5089e6', color: '#5089e6' }}
+                                                    >
+                                                        📍 Track Order
+                                                    </button>
                                                     {/* Show Cancel button only if order is pending and payment is not done */}
                                                     {order.status?.toLowerCase() === 'pending' &&
                                                         order.paymentStatus?.toLowerCase() !== 'paid' && (

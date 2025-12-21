@@ -9,6 +9,7 @@ const ManageUsers = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedRole, setSelectedRole] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
+    const [suspensionFeedback, setSuspensionFeedback] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
 
     const { data: users = [], refetch, isLoading } = useQuery({
@@ -23,19 +24,146 @@ const ManageUsers = () => {
         setSelectedUser(user);
         setSelectedRole(user.role || 'buyer');
         setSelectedStatus(user.status || 'active');
+        setSuspensionFeedback(user.suspensionFeedback || '');
         setShowEditModal(true);
     };
 
     const handleUpdateUser = async (e) => {
         e.preventDefault();
 
+        // If suspending user, ask for reason and feedback
+        if (selectedStatus === 'suspended' && selectedUser.status !== 'suspended') {
+            const { value: formValues } = await Swal.fire({
+                title: 'Suspend User Account',
+                html: `
+                    <div class="text-left space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Suspension Reason <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                id="suspend-reason" 
+                                class="swal2-input w-full" 
+                                placeholder="e.g., Policy Violation, Fraudulent Activity"
+                                style="width: 100%; margin: 0;"
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Detailed Feedback <span class="text-red-500">*</span>
+                            </label>
+                            <textarea 
+                                id="suspend-feedback" 
+                                class="swal2-textarea w-full" 
+                                placeholder="Provide detailed explanation for the suspension..."
+                                style="width: 100%; height: 120px; margin: 0;"
+                                rows="4"
+                            ></textarea>
+                        </div>
+                        <div class="bg-yellow-50 border border-yellow-200 rounded p-3 text-sm">
+                            <p class="font-semibold text-yellow-800 mb-1">⚠️ Suspension Impact:</p>
+                            <ul class="text-yellow-700 text-xs space-y-1 ml-4 list-disc">
+                                ${selectedUser.role === 'buyer' ? `
+                                    <li>Cannot place new orders or bookings</li>
+                                    <li>Can view existing orders only</li>
+                                ` : selectedUser.role === 'manager' ? `
+                                    <li>Cannot add new products</li>
+                                    <li>Cannot approve or reject orders</li>
+                                    <li>Can view existing products and orders</li>
+                                ` : '<li>Limited access to dashboard features</li>'}
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#5089e6',
+                confirmButtonText: 'Suspend User',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    popup: 'swal-wide'
+                },
+                preConfirm: () => {
+                    const reason = document.getElementById('suspend-reason').value;
+                    const feedback = document.getElementById('suspend-feedback').value;
+
+                    if (!reason || !feedback) {
+                        Swal.showValidationMessage('Both reason and feedback are required!');
+                        return false;
+                    }
+
+                    if (reason.trim().length < 3) {
+                        Swal.showValidationMessage('Reason must be at least 3 characters long!');
+                        return false;
+                    }
+
+                    if (feedback.trim().length < 10) {
+                        Swal.showValidationMessage('Feedback must be at least 10 characters long!');
+                        return false;
+                    }
+
+                    return { reason: reason.trim(), feedback: feedback.trim() };
+                }
+            });
+
+            if (!formValues) {
+                return; // User cancelled
+            }
+
+            try {
+                const response = await axios.put(
+                    `${import.meta.env.VITE_backend_url}/users/${selectedUser.email}`,
+                    {
+                        role: selectedRole,
+                        status: selectedStatus,
+                        suspensionReason: formValues.reason,
+                        suspensionFeedback: formValues.feedback
+                    }
+                );
+
+                if (response.data) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'User Suspended!',
+                        html: `
+                            <p class="mb-2">User <strong>${selectedUser.displayName || selectedUser.email}</strong> has been suspended.</p>
+                            <div class="text-left bg-gray-50 p-3 rounded text-sm">
+                                <p class="font-semibold mb-1">Reason: ${formValues.reason}</p>
+                                <p class="text-gray-700">Feedback: ${formValues.feedback}</p>
+                            </div>
+                        `,
+                        confirmButtonColor: '#5089e6'
+                    });
+                    setShowEditModal(false);
+                    refetch();
+                }
+            } catch (error) {
+                console.error('Error suspending user:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: 'Failed to suspend user. Please try again.',
+                    confirmButtonColor: '#5089e6'
+                });
+            }
+            return;
+        }
+
+        // If reactivating user (changing from suspended to active), clear feedback
+        const updateData = {
+            role: selectedRole,
+            status: selectedStatus
+        };
+
+        if (selectedStatus === 'active' && selectedUser.status === 'suspended') {
+            updateData.suspensionReason = '';
+            updateData.suspensionFeedback = '';
+        }
+
         try {
             const response = await axios.put(
                 `${import.meta.env.VITE_backend_url}/users/${selectedUser.email}`,
-                {
-                    role: selectedRole,
-                    status: selectedStatus
-                }
+                updateData
             );
 
             if (response.data) {

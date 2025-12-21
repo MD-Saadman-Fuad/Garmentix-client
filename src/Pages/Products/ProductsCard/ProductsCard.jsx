@@ -10,6 +10,7 @@ const ProductsCard = ({ product }) => {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [userRole, setUserRole] = useState(null);
+    const [userStatus, setUserStatus] = useState(null);
     const [orderQuantity, setOrderQuantity] = useState('');
     const [orderPrice, setOrderPrice] = useState(0);
     const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ const ProductsCard = ({ product }) => {
                 .then(res => res.json())
                 .then(data => {
                     setUserRole(data.role);
+                    setUserStatus(data.status);
                 })
                 .catch(err => console.error(err));
         }
@@ -58,6 +60,20 @@ const ProductsCard = ({ product }) => {
                 icon: 'error',
                 title: 'Access Denied',
                 text: 'Admin and Manager users cannot place orders',
+                confirmButtonColor: '#5089e6'
+            });
+            return;
+        }
+
+        // Check if user is suspended
+        if (userStatus === 'suspended') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Account Suspended',
+                html: `
+                    <p class="mb-2">Your account has been suspended and you cannot place new orders.</p>
+                    <p class="text-sm text-gray-600">Please contact support for more information.</p>
+                `,
                 confirmButtonColor: '#5089e6'
             });
             return;

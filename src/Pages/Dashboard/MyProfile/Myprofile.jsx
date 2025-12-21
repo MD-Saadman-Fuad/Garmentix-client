@@ -8,6 +8,9 @@ const Myprofile = () => {
     const { user, logOut } = useAuth();
     const navigate = useNavigate();
     const [userRole, setUserRole] = useState(null);
+    const [userStatus, setUserStatus] = useState(null);
+    const [suspensionReason, setSuspensionReason] = useState(null);
+    const [suspensionFeedback, setSuspensionFeedback] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -16,6 +19,9 @@ const Myprofile = () => {
                 .then(res => res.json())
                 .then(data => {
                     setUserRole(data.role);
+                    setUserStatus(data.status);
+                    setSuspensionReason(data.suspensionReason);
+                    setSuspensionFeedback(data.suspensionFeedback);
                     setLoading(false);
                 })
                 .catch(err => {
@@ -79,7 +85,7 @@ const Myprofile = () => {
                                     {user?.displayName || 'User Name'}
                                 </h2>
                                 <p className="text-gray-600 text-xl mt-2">{user?.email}</p>
-                                <div className="flex gap-3 mt-4 justify-center md:justify-start">
+                                <div className="flex gap-3 mt-4 justify-center md:justify-start flex-wrap">
                                     {userRole && (
                                         <span
                                             style={{ backgroundColor: '#5089e6' }}
@@ -88,14 +94,90 @@ const Myprofile = () => {
                                             {userRole}
                                         </span>
                                     )}
-                                    {user?.emailVerified && (
+                                    {userStatus === 'suspended' && (
+                                        <span className="badge badge-lg bg-red-500 text-white font-semibold px-6 py-4 text-base">
+                                            ⚠️ Suspended
+                                        </span>
+                                    )}
+                                    {userStatus === 'active' && (
                                         <span className="badge badge-lg bg-green-500 text-white font-semibold px-6 py-4 text-base">
+                                            ✓ Active
+                                        </span>
+                                    )}
+                                    {user?.emailVerified && (
+                                        <span className="badge badge-lg bg-blue-500 text-white font-semibold px-6 py-4 text-base">
                                             ✓ Verified
                                         </span>
                                     )}
                                 </div>
                             </div>
                         </div>
+
+                        {/* Suspension Alert */}
+                        {userStatus === 'suspended' && (suspensionReason || suspensionFeedback) && (
+                            <div className="mt-8 bg-red-50 border-l-4 border-red-500 p-6 rounded-lg shadow-md">
+                                <div className="flex items-start gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-red-500 flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                    <div className="flex-1">
+                                        <h3 className="text-xl font-bold text-red-800 mb-3 flex items-center gap-2">
+                                            <span>⚠️ Account Suspended</span>
+                                        </h3>
+                                        <p className="text-red-700 font-medium mb-4">Your account has been suspended by an administrator. Some features are now restricted.</p>
+
+                                        {/* Reason */}
+                                        {suspensionReason && (
+                                            <div className="bg-white p-4 rounded-lg mb-3 border border-red-200">
+                                                <p className="text-sm text-gray-600 font-semibold mb-2 flex items-center gap-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    Suspension Reason:
+                                                </p>
+                                                <p className="text-gray-900 font-medium">{suspensionReason}</p>
+                                            </div>
+                                        )}
+
+                                        {/* Feedback */}
+                                        {suspensionFeedback && (
+                                            <div className="bg-white p-4 rounded-lg mb-4 border border-red-200">
+                                                <p className="text-sm text-gray-600 font-semibold mb-2 flex items-center gap-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                                                    </svg>
+                                                    Detailed Feedback:
+                                                </p>
+                                                <p className="text-gray-900">{suspensionFeedback}</p>
+                                            </div>
+                                        )}
+
+                                        {/* Role-specific restrictions */}
+                                        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-3">
+                                            <p className="text-sm font-semibold text-yellow-800 mb-2">Restrictions Applied:</p>
+                                            <ul className="text-sm text-yellow-700 space-y-1 ml-4 list-disc">
+                                                {userRole === 'buyer' ? (
+                                                    <>
+                                                        <li>❌ Cannot place new orders or bookings</li>
+                                                        <li>✓ Can view existing orders only</li>
+                                                    </>
+                                                ) : userRole === 'manager' ? (
+                                                    <>
+                                                        <li>❌ Cannot add new products</li>
+                                                        <li>❌ Cannot approve or reject new orders</li>
+                                                        <li>✓ Can view existing products and approved orders</li>
+                                                    </>
+                                                ) : (
+                                                    <li>Limited access to dashboard features</li>
+                                                )}
+                                            </ul>
+                                        </div>
+
+                                        <p className="text-sm text-red-600 font-medium">📧 Please contact support at <a href="mailto:support@garmentix.com" className="underline">support@garmentix.com</a> if you believe this is a mistake.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Information Grid */}
                         <div className="mt-16 grid md:grid-cols-2 gap-8">

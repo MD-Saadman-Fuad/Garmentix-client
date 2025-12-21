@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged,
 import { useEffect, useState } from "react";
 import { auth } from "../Firebase/Firebase.config";
 import AuthContext from "./AuthContext";
+import axios from "axios";
 
 
 
@@ -16,19 +17,57 @@ const AuthProvider = ({ children }) => {
         return createUserWithEmailAndPassword(auth, email, password);
     }
 
-    const signInUser = (email, password) => {
+    const signInUser = async (email, password) => {
         setLoading(true);
-        return signInWithEmailAndPassword(auth, email, password);
+        try {
+            const result = await signInWithEmailAndPassword(auth, email, password);
+            const idToken = await result.user.getIdToken();
+
+            // Store token in httpOnly cookie
+            await axios.post(`${import.meta.env.VITE_backend_url}/auth/login`,
+                { idToken },
+                { withCredentials: true }
+            );
+
+            return result;
+        } catch (error) {
+            setLoading(false);
+            throw error;
+        }
     }
 
-    const signInWithGoogle = () => {
+    const signInWithGoogle = async () => {
         setLoading(true);
-        return signInWithPopup(auth, googleProvider);
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const idToken = await result.user.getIdToken();
+
+            // Store token in httpOnly cookie
+            await axios.post(`${import.meta.env.VITE_backend_url}/auth/login`,
+                { idToken },
+                { withCredentials: true }
+            );
+
+            return result;
+        } catch (error) {
+            setLoading(false);
+            throw error;
+        }
     }
 
-    const logOut = () => {
+    const logOut = async () => {
         setLoading(true);
-        return signOut(auth);
+        try {
+            // Clear cookie from backend
+            await axios.post(`${import.meta.env.VITE_backend_url}/auth/logout`,
+                {},
+                { withCredentials: true }
+            );
+            return await signOut(auth);
+        } catch (error) {
+            setLoading(false);
+            throw error;
+        }
     }
 
     const updateUserProfile = (profile) => {
@@ -36,7 +75,19 @@ const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            if (currentUser) {
+                // User is signed in, sync token to cookie
+                try {
+                    const idToken = await currentUser.getIdToken();
+                    await axios.post(`${import.meta.env.VITE_backend_url}/auth/login`,
+                        { idToken },
+                        { withCredentials: true }
+                    );
+                } catch (error) {
+                    console.error('Token sync error:', error);
+                }
+            }
             setUser(currentUser);
             setLoading(false);
         })

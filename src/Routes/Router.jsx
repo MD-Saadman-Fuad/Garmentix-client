@@ -25,6 +25,12 @@ import PendingOrders from '../Pages/Dashboard/Manger/PendingOrders';
 import Payment from '../Pages/Dashboard/Payment/Payment';
 import PaymentSuccess from '../Pages/Dashboard/Payment/PaymentSuccess';
 import PaymentCancelled from '../Pages/Dashboard/Payment/PaymentCancelled';
+import TrackOrder from '../Pages/Dashboard/TrackOrder/TrackOrder';
+import Error from '../Pages/Error/Error';
+import PrivateRoute from '../Components/PrivateRoute';
+import BuyerRoute from '../Components/BuyerRoute';
+import ManagerRoute from '../Components/ManagerRoute';
+import AdminRoute from '../Components/AdminRoute';
 
 export const router = createBrowserRouter([
     {
@@ -76,69 +82,75 @@ export const router = createBrowserRouter([
     },
     {
         path: "dashboard",
-        Component: Dashboardlayout,
+        element: <PrivateRoute><Dashboardlayout /></PrivateRoute>,
         children: [
             {
                 path: "",
                 Component: Myprofile,
             },
             {
-                path: "my-orders/:email",
-                Component: MyParcels,
-            },
-            {
                 path: "my-profile",
                 Component: Myprofile,
             },
+            // Buyer Routes
+            {
+                path: "my-orders/:email",
+                element: <BuyerRoute><MyParcels /></BuyerRoute>,
+            },
             {
                 path: "track-orders",
-                Component: OrderTrackng,
+                element: <BuyerRoute><OrderTrackng /></BuyerRoute>,
             },
             {
-                path: "manage-users",
-                Component: ManageUsers
-            },
-            {
-                path: "all-products",
-                Component: AllProductsAdmin,
-            },
-            {
-                path: "all-orders",
-                Component: AllOrders,
-            },
-            {
-                path: "add-products",
-                Component: AddProduct
-            },
-            {
-                path: "manage-products",
-                Component: ManageProducts,
-            },
-            {
-                path: "approved-orders",
-                Component: ApprovedOrders,
-            },
-            {
-                path: "pending-orders",
-                Component: PendingOrders,
+                path: 'track-order/:orderId',
+                element: <BuyerRoute><TrackOrder /></BuyerRoute>,
             },
             {
                 path: 'payment/:parcelId',
-                Component: Payment,
+                element: <BuyerRoute><Payment /></BuyerRoute>,
             },
-            // {
-            //     path: 'payment-history',
-            //     Component: PaymentHistory,
-            // },
             {
                 path: 'payment-success',
-                Component: PaymentSuccess,
+                element: <BuyerRoute><PaymentSuccess /></BuyerRoute>,
             },
             {
                 path: 'payment-cancelled',
-                Component: PaymentCancelled,
+                element: <BuyerRoute><PaymentCancelled /></BuyerRoute>,
             },
-
+            // Manager Routes
+            {
+                path: "add-products",
+                element: <ManagerRoute><AddProduct /></ManagerRoute>
+            },
+            {
+                path: "manage-products",
+                element: <ManagerRoute><ManageProducts /></ManagerRoute>,
+            },
+            {
+                path: "pending-orders",
+                element: <ManagerRoute><PendingOrders /></ManagerRoute>,
+            },
+            {
+                path: "approved-orders",
+                element: <ManagerRoute><ApprovedOrders /></ManagerRoute>,
+            },
+            // Admin Routes
+            {
+                path: "manage-users",
+                element: <AdminRoute><ManageUsers /></AdminRoute>
+            },
+            {
+                path: "all-products",
+                element: <AdminRoute><AllProductsAdmin /></AdminRoute>,
+            },
+            {
+                path: "all-orders",
+                element: <AdminRoute><AllOrders /></AdminRoute>,
+            },
         ]
+    },
+    {
+        path: "*",
+        Component: Error,
     }
 ]);

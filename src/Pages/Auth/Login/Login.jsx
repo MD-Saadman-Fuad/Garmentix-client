@@ -24,10 +24,17 @@ const Login = () => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                navigate(location?.state || '/')
+                // Redirect to the location they were trying to access or homepage
+                navigate(location?.state?.from?.pathname || '/', { replace: true });
             })
             .catch(error => {
                 console.log(error.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: error.message || 'Please check your credentials and try again.',
+                    confirmButtonColor: '#5089e6'
+                });
             });
     }
 

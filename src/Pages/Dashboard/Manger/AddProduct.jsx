@@ -8,6 +8,7 @@ const AddProduct = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [userStatus, setUserStatus] = useState(null);
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState('');
     const [formData, setFormData] = useState({
@@ -77,6 +78,21 @@ const AddProduct = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+
+        // Check if manager is suspended
+        if (userStatus === 'suspended') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Account Suspended',
+                html: `
+                    <p class="mb-2">Your account has been suspended and you cannot add new products.</p>
+                    <p class="text-sm text-gray-600">Please contact support for more information.</p>
+                `,
+                confirmButtonColor: '#5089e6'
+            });
+            setIsSubmitting(false);
+            return;
+        }
 
         try {
             // Validate payment options
