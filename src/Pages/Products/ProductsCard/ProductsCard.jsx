@@ -121,7 +121,8 @@ const ProductsCard = ({ product }) => {
             additionalNotes: formData.additionalNotes,
             paymentOptions: product.paymentOptions,
             orderDate: new Date().toISOString(),
-            status: 'pending'
+            status: 'pending',
+            paymentStatus: 'unpaid',
         };
 
         try {
@@ -159,7 +160,7 @@ const ProductsCard = ({ product }) => {
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Placed Successfully!',
-                        text: 'You can view your order in My Orders page',
+                        text: 'You can view your order in My Orders page for further details.',
                         confirmButtonColor: '#5089e6'
                     });
                 }

@@ -8,6 +8,7 @@ const MyParcels = () => {
     const { user } = useAuth();
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
+    const [paymentMethodSelectors, setPaymentMethodSelectors] = useState({});
 
     const { data: orders = [], refetch, isLoading } = useQuery({
         queryKey: ['myParcels', user?.email],
@@ -21,6 +22,57 @@ const MyParcels = () => {
     const handleViewDetails = (order) => {
         setSelectedOrder(order);
         setShowDetailsModal(true);
+    };
+
+    const handlePayment = (orderId) => {
+        window.location.href = `/dashboard/payment/${orderId}`;
+    };
+
+    const handlePaymentMethodChange = (orderId, method) => {
+        setPaymentMethodSelectors(prev => ({
+            ...prev,
+            [orderId]: method
+        }));
+    };
+
+    const handlePaymentAction = (order) => {
+        const selectedMethod = paymentMethodSelectors[order._id];
+
+        // If Cash on Delivery is selected, update order status
+        if (selectedMethod === 'cash_on_delivery') {
+            axios.patch(`${import.meta.env.VITE_backend_url}/orders/${order._id}`, {
+                paymentMethod: 'Cash on Delivery',
+                paymentStatus: 'Pending',
+                status: order.status || 'pending'
+            })
+                .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Payment Method Selected',
+                        text: 'You will pay cash when you receive your order.',
+                        confirmButtonColor: '#5089e6'
+                    });
+                    // Clear the selector
+                    setPaymentMethodSelectors(prev => {
+                        const newState = { ...prev };
+                        delete newState[order._id];
+                        return newState;
+                    });
+                    refetch();
+                })
+                .catch(err => {
+                    console.error('Error updating payment method:', err);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Failed to update payment method. Please try again.',
+                        confirmButtonColor: '#5089e6'
+                    });
+                });
+        } else {
+            // Redirect to payment page for online payment
+            handlePayment(order._id);
+        }
     };
 
     const handleCancelOrder = (orderId) => {
@@ -65,12 +117,15 @@ const MyParcels = () => {
     };
 
     const getStatusBadge = (status) => {
+        if (!status) return 'badge-neutral';
+
         const statusColors = {
             pending: 'badge-warning',
             processing: 'badge-info',
             shipped: 'badge-primary',
             delivered: 'badge-success',
-            cancelled: 'badge-error'
+            cancelled: 'badge-error',
+            approved: 'badge-success'
         };
         return statusColors[status.toLowerCase()] || 'badge-neutral';
     };
@@ -163,14 +218,67 @@ const MyParcels = () => {
                                                     >
                                                         View
                                                     </button>
-                                                    {order.status.toLowerCase() === 'pending' && (
-                                                        <button
-                                                            onClick={() => handleCancelOrder(order._id)}
-                                                            className="btn btn-sm btn-outline btn-error"
-                                                        >
-                                                            Cancel
-                                                        </button>
+                                                    {/* Show Cancel button only if order is pending and payment is not done */}
+                                                    {order.status?.toLowerCase() === 'pending' &&
+                                                        order.paymentStatus?.toLowerCase() !== 'paid' && (
+                                                            <button
+                                                                onClick={() => handleCancelOrder(order._id)}
+                                                                className="btn btn-sm btn-outline btn-error"
+                                                            >
+                                                                Cancel
+                                                            </button>
+                                                        )}
+                                                    {/* Payment options for unpaid orders (not cancelled) */}
+                                                    {order.paymentStatus?.toLowerCase() !== 'paid' &&
+                                                        order.status?.toLowerCase() !== 'cancelled' && (
+                                                            <>
+                                                                {/* If order has Cash on Delivery option, show dropdown selector */}
+                                                                {order.paymentOptions?.some(opt => opt.toLowerCase() === 'cash on delivery') ? (
+                                                                    <div className="flex gap-2 items-center">
+                                                                        <select
+                                                                            className="select select-bordered select-sm"
+                                                                            value={paymentMethodSelectors[order._id] || ''}
+                                                                            onChange={(e) => handlePaymentMethodChange(order._id, e.target.value)}
+                                                                            style={{ borderColor: '#5089e6' }}
+                                                                        >
+                                                                            <option value="" disabled>Select Payment</option>
+                                                                            <option value="pay_now">Pay Now (Online)</option>
+                                                                            <option value="cash_on_delivery">Cash on Delivery</option>
+                                                                        </select>
+                                                                        <button
+                                                                            onClick={() => handlePaymentAction(order)}
+                                                                            disabled={!paymentMethodSelectors[order._id]}
+                                                                            className="btn btn-sm text-white"
+                                                                            style={{ backgroundColor: '#5089e6' }}
+                                                                        >
+                                                                            Proceed
+                                                                        </button>
+                                                                    </div>
+                                                                ) : (
+                                                                    /* If NO Cash on Delivery, show only Pay Now button */
+                                                                    <button
+                                                                        onClick={() => handlePayment(order._id)}
+                                                                        className="btn btn-sm text-white"
+                                                                        style={{ backgroundColor: '#5089e6' }}
+                                                                    >
+                                                                        Pay Now
+                                                                    </button>
+                                                                )}
+                                                            </>
+                                                        )}
+                                                    {/* Show Paid badge if payment is done */}
+                                                    {order.paymentStatus?.toLowerCase() === 'paid' && (
+                                                        <span className="badge badge-success badge-lg font-semibold">
+                                                            ✓ Paid
+                                                        </span>
                                                     )}
+                                                    {/* Show Cash on Delivery badge if selected */}
+                                                    {order.paymentMethod?.toLowerCase() === 'cash on delivery' &&
+                                                        order.paymentStatus?.toLowerCase() !== 'paid' && (
+                                                            <span className="badge badge-info badge-lg font-semibold">
+                                                                💵 Cash on Delivery
+                                                            </span>
+                                                        )}
                                                 </div>
                                             </td>
                                         </tr>

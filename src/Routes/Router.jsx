@@ -22,6 +22,9 @@ import AddProduct from '../Pages/Dashboard/Manger/AddProduct';
 import ManageProducts from '../Pages/Dashboard/Manger/ManageProducts';
 import ApprovedOrders from '../Pages/Dashboard/Manger/ApprovedOrders';
 import PendingOrders from '../Pages/Dashboard/Manger/PendingOrders';
+import Payment from '../Pages/Dashboard/Payment/Payment';
+import PaymentSuccess from '../Pages/Dashboard/Payment/PaymentSuccess';
+import PaymentCancelled from '../Pages/Dashboard/Payment/PaymentCancelled';
 
 export const router = createBrowserRouter([
     {
@@ -118,7 +121,23 @@ export const router = createBrowserRouter([
             {
                 path: "pending-orders",
                 Component: PendingOrders,
-            }
+            },
+            {
+                path: 'payment/:parcelId',
+                Component: Payment,
+            },
+            // {
+            //     path: 'payment-history',
+            //     Component: PaymentHistory,
+            // },
+            {
+                path: 'payment-success',
+                Component: PaymentSuccess,
+            },
+            {
+                path: 'payment-cancelled',
+                Component: PaymentCancelled,
+            },
 
         ]
     }
