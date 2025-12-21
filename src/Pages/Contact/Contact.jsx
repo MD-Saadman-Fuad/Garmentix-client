@@ -5,7 +5,7 @@ const Contact = () => {
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-gray-100 py-16 px-4">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-16">
+                <div className="text-center mb-16" data-aos="fade-up">
                     <h1 className="text-5xl font-bold text-gray-900 mb-4">Get In Touch</h1>
                     <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                         Have questions about Garmentix? We're here to help streamline your garment production management.
@@ -13,7 +13,7 @@ const Contact = () => {
                 </div>
 
                 {/* Contact Cards Grid */}
-                <div className="grid md:grid-cols-2 gap-8 mb-16">
+                <div className="grid md:grid-cols-2 gap-8 mb-16" data-aos="fade-up">
                     {/* Contact Information Card */}
                     <div className="bg-white rounded-2xl shadow-xl p-8">
                         <h2 className="text-3xl font-bold text-gray-900 mb-6">Contact Information</h2>

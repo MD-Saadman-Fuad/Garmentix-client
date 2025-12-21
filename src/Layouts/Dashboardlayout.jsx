@@ -7,10 +7,43 @@ import { IoHomeSharp } from "react-icons/io5";
 import useAuth from '../Hooks/useAuth';
 import { FaShoppingCart, FaTruck, FaUsers } from 'react-icons/fa';
 import { MdAddToPhotos, MdLibraryAddCheck, MdOutlinePendingActions } from "react-icons/md";
-
+import userPNG from '../assets/user.png';
+import Footer from '../Shared/Footer';
 const Dashboardlayout = () => {
     const [userData, setUserData] = React.useState({});
-    const { user } = useAuth();
+    const { user, logOut } = useAuth();
+    const handleLogOut = () => {
+        logOut()
+            .then(() => { })
+            .catch(error => console.log(error));
+    };
+    const links = <>
+        <li><NavLink className='btn btn-primary btn-sm hover:btn-primary-focus hover:scale-105 transition-all duration-200' to="/">Home</NavLink></li>
+        <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/products">All Products</NavLink></li>
+        {user ? <>
+            <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/dashboard">Dashboard</NavLink></li>
+
+            <li onClick={handleLogOut}><NavLink className='btn btn-ghost btn-sm hover:bg-error hover:text-white transition-all duration-200' to="/login">Logout</NavLink></li>
+            <img
+                className='w-12 h-12 rounded-full border-2 border-primary hover:border-primary-focus hover:scale-110 hover:shadow-lg transition-all duration-200 cursor-pointer'
+                src={user.photoURL || userPNG}
+                alt={user.displayName || "User"}
+                onError={(e) => {
+                    console.log("Image failed to load:", user.photoURL);
+                    e.target.src = userPNG;
+                }}
+                crossOrigin="anonymous"
+                referrerPolicy="no-referrer"
+            />
+        </>
+            :
+            <>
+                <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/aboutus">About Us</NavLink></li>
+                <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/contact">Contact</NavLink></li>
+                <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/login">Login</NavLink></li>
+                <li><NavLink className='btn btn-primary btn-sm hover:btn-primary-focus hover:scale-105 transition-all duration-200' to="/register">Register</NavLink></li>
+            </>}
+    </>
     useEffect(() => {
         fetch(`${import.meta.env.VITE_backend_url}/users/${user?.email}`)
             .then(res => res.json())
@@ -28,15 +61,29 @@ const Dashboardlayout = () => {
             <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
                 {/* Navbar */}
-                <nav className="navbar w-full bg-base-300">
-                    <label htmlFor="my-drawer-4" aria-label="open sidebar" className="btn btn-square btn-ghost">
-                        {/* Sidebar toggle icon */}
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
-                    </label>
-                    <div className="px-4">Welcome to Your Dashboard</div>
+                <nav className="navbar w-full bg-base-300 gap-4">
+                    <div className="flex-none">
+                        <label htmlFor="my-drawer-4" aria-label="open sidebar" className="btn btn-square btn-ghost">
+                            {/* Sidebar toggle icon */}
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor" className="my-1.5 inline-block size-4"><path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path><path d="M9 4v16"></path><path d="M14 10l2 2l-2 2"></path></svg>
+                        </label>
+                    </div>
+
+                    <div className="flex-1">
+                        <h1 className="text-lg md:text-xl font-semibold text-gray-800">
+                            Welcome to Your Dashboard
+                        </h1>
+                    </div>
+
+                    <div className="flex-none">
+                        <ul className="menu menu-horizontal px-1 gap-2 items-center">
+                            {links}
+                        </ul>
+                    </div>
                 </nav>
                 {/* Page content here */}
                 <div className="p-4"><Outlet /></div>
+                <Footer></Footer>
             </div>
 
             <div className="drawer-side is-drawer-close:overflow-visible">
@@ -112,8 +159,8 @@ const Dashboardlayout = () => {
                         }
                         {
                             userData.role === 'admin' ?
-                            <div>
-                                <li>
+                                <div>
+                                    <li>
 
                                         <NavLink to={`/dashboard/manage-users`} className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Manage Users">
 
@@ -137,9 +184,9 @@ const Dashboardlayout = () => {
 
                                         </NavLink>
                                     </li>
-                            </div>
-                            :
-                            <></>
+                                </div>
+                                :
+                                <></>
                         }
                         <li>
 

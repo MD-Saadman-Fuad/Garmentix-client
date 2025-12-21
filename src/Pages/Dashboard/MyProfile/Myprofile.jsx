@@ -54,13 +54,13 @@ const Myprofile = () => {
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-gray-100 py-8 px-4">
             <div className="container mx-auto max-w-6xl">
                 {/* Header */}
-                <div className="mb-8">
+                <div className="mb-8" data-aos="fade-up">
                     <h1 className="text-4xl font-bold text-gray-900">My Profile</h1>
                     <p className="text-gray-600 mt-2">Manage your personal information</p>
                 </div>
 
                 {/* Profile Card */}
-                <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+                <div className="bg-white rounded-3xl shadow-2xl overflow-hidden" data-aos="fade-up">
                     {/* Profile Content */}
                     <div className="relative px-8 py-10">
                         {/* Profile Picture */}

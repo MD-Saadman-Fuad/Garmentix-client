@@ -70,14 +70,16 @@ export default function AboutSection() {
     return (
         <section className=" bg-base-100  px-4 py-16">
             {/* Header */}
-            <h2 className="text-3xl font-bold mb-2">About Us</h2>
-            <p className="text-gray-600 max-w-2xl mb-12">
-                Transform your garment production with real-time tracking and powerful analytics.
-                From cutting to finishing — we bring transparency and efficiency to every stage of manufacturing.
-            </p>
+            <div data-aos="fade-up">
+                <h2 className="text-3xl font-bold mb-2">About Us</h2>
+                <p className="text-gray-600 max-w-2xl mb-12">
+                    Transform your garment production with real-time tracking and powerful analytics.
+                    From cutting to finishing — we bring transparency and efficiency to every stage of manufacturing.
+                </p>
+            </div>
 
             {/* Tabs */}
-            <div className="flex gap-6 border-b border-gray-200 mb-8 overflow-x-auto">
+            <div className="flex gap-6 border-b border-gray-200 mb-8 overflow-x-auto" data-aos="fade-up">
                 {tabs.map((tab) => (
                     <button
                         key={tab}
@@ -93,7 +95,7 @@ export default function AboutSection() {
             </div>
 
             {/* Content */}
-            <div className="text-gray-700 leading-relaxed">
+            <div className="text-gray-700 leading-relaxed" data-aos="fade-up">
                 <p>{content[activeTab]}</p>
             </div>
         </section>

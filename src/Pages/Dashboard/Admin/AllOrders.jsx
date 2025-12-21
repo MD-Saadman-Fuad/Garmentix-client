@@ -120,13 +120,13 @@ const AllOrders = () => {
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-gray-100 py-8 px-4">
             <div className="container mx-auto max-w-7xl">
                 {/* Header */}
-                <div className="mb-8">
+                <div className="mb-8" data-aos="fade-up">
                     <h1 className="text-4xl font-bold text-gray-900">All Orders</h1>
                     <p className="text-gray-600 mt-2">Manage all customer orders</p>
                 </div>
 
                 {/* Search and Filter */}
-                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6" data-aos="fade-up">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* Search */}
                         <div className="form-control">
@@ -169,7 +169,7 @@ const AllOrders = () => {
                 </div>
 
                 {/* Orders Table */}
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div className="bg-white rounded-2xl shadow-xl overflow-hidden" data-aos="fade-up">
                     {filteredOrders.length === 0 ? (
                         <div className="text-center py-16">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-20 h-20 mx-auto text-gray-400 mb-4">

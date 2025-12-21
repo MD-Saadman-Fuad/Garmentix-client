@@ -34,7 +34,7 @@ const AllProducts = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             {/* Header Section */}
-            <div className="text-center mb-12">
+            <div className="text-center mb-12" data-aos="fade-up">
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Products</h2>
                 <p className="text-gray-600 max-w-2xl mx-auto">
                     Explore our wide range of quality garments available for bulk orders.
@@ -43,7 +43,7 @@ const AllProducts = () => {
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-aos="fade-up">
                 {products.map(product => (
                     <ProductsCard key={product._id} product={product} />
                 ))}

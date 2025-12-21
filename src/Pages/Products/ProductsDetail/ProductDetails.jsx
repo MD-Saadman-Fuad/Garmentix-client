@@ -257,7 +257,7 @@ const ProductDetails = () => {
                     Back to Products
                 </button>
 
-                <div className="grid md:grid-cols-2 gap-10 bg-white rounded-3xl shadow-2xl overflow-hidden p-8 md:p-12">
+                <div className="grid md:grid-cols-2 gap-10 bg-white rounded-3xl shadow-2xl overflow-hidden p-8 md:p-12" data-aos="fade-up">
                     {/* Left Side - Image */}
                     <div className="space-y-6">
                         <div className="relative overflow-hidden rounded-2xl shadow-xl">

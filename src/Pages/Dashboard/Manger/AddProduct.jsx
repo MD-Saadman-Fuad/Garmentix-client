@@ -210,13 +210,13 @@ const AddProduct = () => {
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-gray-100 py-8 px-4">
             <div className="container mx-auto max-w-4xl">
                 {/* Header */}
-                <div className="mb-8">
+                <div className="mb-8" data-aos="fade-up">
                     <h1 className="text-4xl font-bold text-gray-900">Add New Product</h1>
                     <p className="text-gray-600 mt-2">Fill in the product details below</p>
                 </div>
 
                 {/* Form Card */}
-                <div className="bg-white rounded-2xl shadow-xl p-8">
+                <div className="bg-white rounded-2xl shadow-xl p-8" data-aos="fade-up">
                     <form onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Product Name */}

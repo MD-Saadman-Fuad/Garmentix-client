@@ -84,13 +84,13 @@ const OrderTrackng = () => {
         <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="mb-8">
+                <div className="mb-8" data-aos="fade-up">
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">Track All Orders</h1>
                     <p className="text-gray-600">Monitor the progress of all your orders in one place</p>
                 </div>
 
                 {/* Search and Filter Bar */}
-                <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+                <div className="bg-white rounded-lg shadow-md p-4 mb-6" data-aos="fade-up">
                     <div className="flex flex-col sm:flex-row gap-4">
                         {/* Search Input */}
                         <div className="flex-grow">
@@ -147,7 +147,7 @@ const OrderTrackng = () => {
                 </div>
 
                 {/* Orders Summary Stats */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6" data-aos="fade-up">
                     <div className="bg-white rounded-lg shadow-md p-4 text-center">
                         <p className="text-2xl font-bold text-gray-900">{orders.length}</p>
                         <p className="text-sm text-gray-600">Total Orders</p>
@@ -197,7 +197,7 @@ const OrderTrackng = () => {
                         </p>
                     </div>
                 ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-4" data-aos="fade-up">
                         {filteredOrders.map((order) => {
                             const latestUpdate = getLatestUpdate(order);
 

@@ -261,13 +261,13 @@ const ManageUsers = () => {
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-gray-100 py-8 px-4">
             <div className="container mx-auto max-w-7xl">
                 {/* Header */}
-                <div className="mb-8">
+                <div className="mb-8" data-aos="fade-up">
                     <h1 className="text-4xl font-bold text-gray-900">Manage Users</h1>
                     <p className="text-gray-600 mt-2">Manage user roles and permissions</p>
                 </div>
 
                 {/* Search Bar */}
-                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6" data-aos="fade-up">
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text font-semibold">Search Users</span>
@@ -288,7 +288,7 @@ const ManageUsers = () => {
                 </div>
 
                 {/* Users Table */}
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div className="bg-white rounded-2xl shadow-xl overflow-hidden" data-aos="fade-up">
                     {filteredUsers.length === 0 ? (
                         <div className="text-center py-16">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-20 h-20 mx-auto text-gray-400 mb-4">

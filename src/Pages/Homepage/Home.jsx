@@ -11,11 +11,21 @@ const Home = () => {
     return (
         <div>
             <Banner />
-            <FeaturedProducts />
-            <BeUs />
-            <Partners />
-            <Reviews reviewsPromise={reviewsPromise} />
-            <Faq />
+            <div data-aos="fade-up">
+                <FeaturedProducts />
+            </div>
+            <div data-aos="fade-up">
+                <BeUs />
+            </div>
+            <div data-aos="fade-up">
+                <Partners />
+            </div>
+            <div data-aos="fade-up">
+                <Reviews reviewsPromise={reviewsPromise} />
+            </div>
+            <div data-aos="fade-up">
+                <Faq />
+            </div>
         </div>
     );
 };

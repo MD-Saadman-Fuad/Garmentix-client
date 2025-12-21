@@ -8,7 +8,7 @@ const Footer = () => {
                     <Logo  />
                 </div>
                 <p>
-                    ACME Industries Ltd.
+                    Garmentix Industries Ltd.
                     <br />
                     Providing reliable tech since 1992
                 </p>

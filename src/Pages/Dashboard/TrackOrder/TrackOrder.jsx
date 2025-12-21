@@ -91,10 +91,10 @@ const TrackOrder = () => {
         return (
             <div
                 className={`flex items-center justify-center w-12 h-12 rounded-full border-4 ${isLatest
-                        ? 'bg-[#5089e6] border-[#5089e6] text-white shadow-lg scale-110'
-                        : isCompleted
-                            ? 'bg-green-500 border-green-500 text-white'
-                            : 'bg-gray-200 border-gray-300 text-gray-500'
+                    ? 'bg-[#5089e6] border-[#5089e6] text-white shadow-lg scale-110'
+                    : isCompleted
+                        ? 'bg-green-500 border-green-500 text-white'
+                        : 'bg-gray-200 border-gray-300 text-gray-500'
                     }`}
             >
                 <span className="text-2xl">{icon}</span>
@@ -206,7 +206,7 @@ const TrackOrder = () => {
         <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
-                <div className="mb-6">
+                <div className="mb-6" data-aos="fade-up">
                     <Link
                         to={`/dashboard/my-orders/${user?.email}`}
                         className="text-[#5089e6] hover:text-blue-700 flex items-center gap-2 mb-4"
@@ -217,7 +217,7 @@ const TrackOrder = () => {
                 </div>
 
                 {/* Order Details Card */}
-                <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                <div className="bg-white rounded-lg shadow-md p-6 mb-6" data-aos="fade-up">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Left column */}
                         <div>
@@ -266,8 +266,8 @@ const TrackOrder = () => {
                                     <p className="text-sm text-gray-600">Payment Status</p>
                                     <span
                                         className={`badge ${order.paymentStatus?.toLowerCase() === 'paid'
-                                                ? 'badge-success'
-                                                : 'badge-warning'
+                                            ? 'badge-success'
+                                            : 'badge-warning'
                                             } mt-1`}
                                     >
                                         {order.paymentStatus || 'Pending'}
@@ -298,7 +298,7 @@ const TrackOrder = () => {
                 </div>
 
                 {/* Timeline Card */}
-                <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="bg-white rounded-lg shadow-md p-6" data-aos="fade-up">
                     <h2 className="text-2xl font-bold text-gray-900 mb-6">Order Timeline</h2>
                     <Timeline timeline={order.trackingTimeline} />
                 </div>

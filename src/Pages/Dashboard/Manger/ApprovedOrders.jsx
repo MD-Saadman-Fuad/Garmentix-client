@@ -146,13 +146,13 @@ const ApprovedOrders = () => {
         <div className="min-h-screen bg-linear-to-br from-blue-50 to-gray-100 p-6">
             <div className="container mx-auto">
                 {/* Header */}
-                <div className="mb-8">
+                <div className="mb-8" data-aos="fade-up">
                     <h1 className="text-4xl font-bold text-gray-900">Approved Orders</h1>
                     <p className="text-gray-600 mt-2">Manage approved orders and add tracking information</p>
                 </div>
 
                 {/* Search Bar */}
-                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6" data-aos="fade-up">
                     <div className="form-control">
                         <label className="label">
                             <span className="label-text font-semibold">Search Orders</span>
@@ -222,7 +222,7 @@ const ApprovedOrders = () => {
                 </div>
 
                 {/* Orders Table */}
-                <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div className="bg-white rounded-xl shadow-lg overflow-hidden" data-aos="fade-up">
                     <div className="overflow-x-auto">
                         <table className="table table-zebra w-full">
                             <thead style={{ backgroundColor: '#5089e6' }} className="text-white">

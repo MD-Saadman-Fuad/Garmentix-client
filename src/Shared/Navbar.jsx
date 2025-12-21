@@ -13,14 +13,14 @@ const Navbar = () => {
     };
 
     const links = <>
-        <li><NavLink to="/">Home</NavLink></li>
-        <li><NavLink to="/products">All Products</NavLink></li>
+        <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/">Home</NavLink></li>
+        <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/products">All Products</NavLink></li>
         {user ? <>
-            <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+            <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/dashboard">Dashboard</NavLink></li>
 
-            <li onClick={handleLogOut}><NavLink to="/login">Logout</NavLink></li>
+            <li onClick={handleLogOut}><NavLink className='btn btn-ghost btn-sm hover:bg-error hover:text-white transition-all duration-200' to="/login">Logout</NavLink></li>
             <img
-                className='w-12 h-12 rounded-full  border-2 border-emerald-300'
+                className='w-12 h-12 rounded-full border-2 border-primary hover:border-primary-focus hover:scale-110 hover:shadow-lg transition-all duration-200 cursor-pointer'
                 src={user.photoURL || userPNG}
                 alt={user.displayName || "User"}
                 onError={(e) => {
@@ -33,10 +33,10 @@ const Navbar = () => {
         </>
             :
             <>
-                <li><NavLink to="/aboutus">About Us</NavLink></li>
-                <li><NavLink to="/contact">Contact</NavLink></li>
-                <li><NavLink to="/login">Login</NavLink></li>
-                <li><NavLink to="/register">Register</NavLink></li>
+                <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/aboutus">About Us</NavLink></li>
+                <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/contact">Contact</NavLink></li>
+                <li><NavLink className='btn btn-ghost btn-sm hover:bg-primary hover:text-white transition-all duration-200' to="/login">Login</NavLink></li>
+                <li><NavLink className='btn btn-primary btn-sm hover:btn-primary-focus hover:scale-105 transition-all duration-200' to="/register">Register</NavLink></li>
             </>}
     </>
     return (
