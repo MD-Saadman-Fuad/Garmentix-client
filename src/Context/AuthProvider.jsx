@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, updateProfile } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "../Firebase/Firebase.config";
 import AuthContext from "./AuthContext";
@@ -51,6 +51,7 @@ const AuthProvider = ({ children }) => {
             return result;
         } catch (error) {
             setLoading(false);
+            console.error('Google sign-in error:', error);
             throw error;
         }
     }

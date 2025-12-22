@@ -55,7 +55,7 @@ const PaymentSuccess = () => {
     }
 
     return (
-        <div className='min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-6'>
+        <div className='min-h-screen bg-linear-to-br from-green-50 to-blue-50 flex items-center justify-center p-6'>
             <div className="bg-white rounded-3xl shadow-2xl p-12 max-w-2xl w-full text-center">
                 {/* Success Icon */}
                 <div className="mb-6">

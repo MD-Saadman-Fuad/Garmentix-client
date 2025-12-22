@@ -7,7 +7,7 @@ const PaymentCancelled = () => {
     const { user } = useAuth();
 
     return (
-        <div className='min-h-screen bg-gradient-to-br from-red-50 to-gray-100 flex items-center justify-center p-6'>
+        <div className='min-h-screen bg-linear-to-br from-red-50 to-gray-100 flex items-center justify-center p-6'>
             <div className="bg-white rounded-3xl shadow-2xl p-12 max-w-2xl w-full text-center">
                 {/* Cancelled Icon */}
                 <div className="mb-6">

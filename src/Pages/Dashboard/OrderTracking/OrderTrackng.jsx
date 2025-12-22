@@ -93,7 +93,7 @@ const OrderTrackng = () => {
                 <div className="bg-white rounded-lg shadow-md p-4 mb-6" data-aos="fade-up">
                     <div className="flex flex-col sm:flex-row gap-4">
                         {/* Search Input */}
-                        <div className="flex-grow">
+                        <div className="grow">
                             <input
                                 type="text"
                                 placeholder="Search by product name, order ID, or tracking number..."
@@ -206,7 +206,7 @@ const OrderTrackng = () => {
                                     <div className="p-6">
                                         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                                             {/* Left Section: Order Info */}
-                                            <div className="flex-grow">
+                                            <div className="grow">
                                                 <div className="flex items-start gap-4">
                                                     {/* Order Icon */}
                                                     <div className="hidden sm:flex items-center justify-center w-16 h-16 rounded-lg bg-blue-50">
@@ -214,7 +214,7 @@ const OrderTrackng = () => {
                                                     </div>
 
                                                     {/* Order Details */}
-                                                    <div className="flex-grow">
+                                                    <div className="grow">
                                                         <div className="flex flex-wrap items-center gap-2 mb-2">
                                                             <h3 className="text-lg font-semibold text-gray-900">
                                                                 {order.productName}

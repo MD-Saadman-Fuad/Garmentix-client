@@ -17,9 +17,9 @@ Garmentix is a comprehensive **garment production management platform** designed
 
 ## 🔗 Live Project & Repositories
 
-* 🌐 **Live Website:** [https://garmentix.netlify.app/](https://garmentix.netlify.app/)
-* 💻 **Client Repository:** [https://github.com/MD-Saadman-Fuad/Garmentix-client](https://github.com/MD-Saadman-Fuad/Garmentix-client)
-* 🖥 **Backend API:** [https://garmentix-server.onrender.com](https://garmentix-server.onrender.com)
+- 🌐 **Live Website:** [https://garmentix.netlify.app/](https://garmentix.netlify.app/)
+- 💻 **Client Repository:** [https://github.com/MD-Saadman-Fuad/Garmentix-client](https://github.com/MD-Saadman-Fuad/Garmentix-client)
+- 🖥 **Backend API:** [https://garmentix-server.onrender.com](https://garmentix-server.onrender.com)
 
 ---
 
@@ -27,21 +27,21 @@ Garmentix is a comprehensive **garment production management platform** designed
 
 This project was developed as a **real-world production management system for garment factories** to help:
 
-* Track buyer orders from placement to delivery
-* Manage factory production stages with real-time timeline updates
-* Control inventory and product visibility
-* Handle users through **Admin & Manager authority** with suspension capabilities
-* Ensure **secure authentication & role-based access** with Firebase and JWT
-* Provide transparent communication between buyers, managers, and administrators
+- Track buyer orders from placement to delivery
+- Manage factory production stages with real-time timeline updates
+- Control inventory and product visibility
+- Handle users through **Admin & Manager authority** with suspension capabilities
+- Ensure **secure authentication & role-based access** with Firebase and JWT
+- Provide transparent communication between buyers, managers, and administrators
 
 It closely simulates how actual **ERP-style systems** work in the garment industry.
-
 
 ---
 
 ## ✨ Key Features
 
 ### 🔐 Authentication & Authorization
+
 - **Firebase Authentication** with email/password and Google Sign-In
 - **JWT-based session management** with httpOnly cookies (7-day expiry)
 - **Role-based access control** (Admin, Manager, Buyer)
@@ -51,6 +51,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 ### 👥 User Roles & Permissions
 
 #### **Admin**
+
 - Manage all users (suspend/activate accounts with detailed feedback)
 - View and manage all products across the platform
 - View and manage all orders with status updates
@@ -59,6 +60,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 - Toggle product visibility on homepage
 
 #### **Manager**
+
 - Add new products with multiple payment options
 - Manage own products (edit/delete)
 - View and approve/reject pending orders
@@ -66,6 +68,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 - Restricted when suspended (cannot add products or approve orders)
 
 #### **Buyer**
+
 - Browse and search products with filters
 - Place orders with customizable details
 - Track order status in real-time with visual timeline
@@ -75,6 +78,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 - Restricted when suspended (cannot place new orders)
 
 ### 📦 Product Management
+
 - **Product creation** with images, descriptions, categories
 - **Payment options:** Cash on Delivery, bKash, Nagad, PayFast
 - **Image upload** with validation (5MB limit)
@@ -84,6 +88,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 - **Product analytics** with order count tracking
 
 ### 🛒 Order Management
+
 - **Complete order workflow:** Pending → Approved → In Production → Shipped → Delivered
 - **Order details:** Customer info, delivery address, payment method, contact number
 - **Order cancellation** for pending orders
@@ -92,6 +97,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 - **Order summary statistics** (Total, Pending, In Production, Delivered)
 
 ### 📍 Order Tracking System
+
 - **Real-time tracking timeline** with visual indicators and step icons
 - **Production updates:** Cutting Completed, Sewing Started, Sewing Completed, Finished, Packed, Shipped, Delivered
 - **Location and timestamp** for each tracking update
@@ -101,6 +107,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 - **Authorization checks** to ensure users only see their own orders
 
 ### 🎨 User Experience
+
 - **AOS animations** throughout the application (fade-up transitions, 800ms duration)
 - **Responsive design** optimized for mobile, tablet, and desktop
 - **DaisyUI components** for consistent, modern UI
@@ -111,6 +118,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 - **Form validation** with React Hook Form
 
 ### 🚫 Account Suspension
+
 - **Admin suspension** with detailed reason and feedback collection
 - **Suspension alerts** prominently displayed on user profile
 - **Role-specific restrictions:**
@@ -134,20 +142,21 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 
 ## ⚙️ Advanced System Features
 
-* Search & filter system
-* Pagination
-* Toast & SweetAlert notifications
-* Fully reusable modals & components
-* Loading spinners on all async actions
-* Role-based UI rendering
-* Production tracking timeline
-* Real-time order status updates
+- Search & filter system
+- Pagination
+- Toast & SweetAlert notifications
+- Fully reusable modals & components
+- Loading spinners on all async actions
+- Role-based UI rendering
+- Production tracking timeline
+- Real-time order status updates
 
 ---
 
 ## 🛠️ Technologies Used
 
 ### Frontend
+
 - **React 19.2.0** - Modern React with hooks and latest features
 - **React Router 7.10.1** - Client-side routing with protected routes
 - **Vite 7.2.4** - Fast build tool and dev server
@@ -156,10 +165,12 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 - **Firebase 12.6.0** - Authentication with Admin SDK support
 
 ### State Management & Data Fetching
+
 - **TanStack React Query 5.90.12** - Server state management with caching
 - **Axios 1.13.2** - HTTP client with interceptors and withCredentials
 
 ### UI/UX Libraries
+
 - **AOS 2.3.4** - Scroll animations (fade-up, 800ms, ease-in-out)
 - **Framer Motion 12.23.26** - Advanced animations for interactive elements
 - **React Icons 5.5.0** - Comprehensive icon library
@@ -169,9 +180,11 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 - **React Responsive Carousel 3.2.23** - Image carousels
 
 ### Form Handling
+
 - **React Hook Form 7.68.0** - Performant form validation with minimal re-renders
 
 ### Backend Stack
+
 - **Node.js** - JavaScript runtime
 - **Express.js** - RESTful API server framework
 - **MongoDB** - NoSQL database (garmentixDB)
@@ -182,6 +195,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 - **Dotenv** - Environment variable management
 
 ### Development Tools
+
 - **ESLint 9.39.1** - Code linting
 - **Vite Plugin React 5.1.1** - Fast refresh and JSX support
 - **TypeScript types** - Type definitions for React
@@ -191,6 +205,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 ## 📦 NPM Packages
 
 ### Client Dependencies:
+
 ```json
 {
   "@tailwindcss/vite": "^4.1.17",
@@ -214,6 +229,7 @@ It closely simulates how actual **ERP-style systems** work in the garment indust
 ```
 
 ### Dev Dependencies:
+
 ```json
 {
   "@eslint/js": "^9.39.1",
@@ -304,17 +320,20 @@ garmentix-client/
 ## 🔌 API Endpoints
 
 ### Authentication
+
 - `POST /auth/login` - Login with Firebase token, returns httpOnly cookie
 - `GET /auth/verify` - Verify authentication status
 - `POST /auth/logout` - Clear authentication cookie
 
 ### Users
+
 - `GET /users` - Get all users (Admin only)
 - `GET /users/:email` - Get user by email
 - `PUT /users/:email` - Update user (role, status, suspension details)
 - `DELETE /users/:email` - Delete user (Admin only)
 
 ### Products
+
 - `GET /products` - Get all products (with optional email filter)
 - `GET /products/:id` - Get product by ID
 - `POST /products` - Create new product (Manager only)
@@ -322,6 +341,7 @@ garmentix-client/
 - `DELETE /products/:id` - Delete product
 
 ### Orders
+
 - `GET /orders` - Get orders (with filters: email, status, managerEmail)
 - `GET /orders/:id` - Get order by ID
 - `POST /orders` - Create new order (Buyer only)
@@ -352,6 +372,7 @@ VITE_backend_url=https://garmentix-server.onrender.com
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js (v18 or higher)
 - npm or yarn
 - Firebase account
@@ -360,12 +381,14 @@ VITE_backend_url=https://garmentix-server.onrender.com
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/MD-Saadman-Fuad/Garmentix-client.git
 cd Garmentix-client
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
@@ -375,6 +398,7 @@ npm install
 Create a `.env` file in the root directory with the variables shown above.
 
 4. **Start development server**
+
 ```bash
 npm run dev
 ```
@@ -382,6 +406,7 @@ npm run dev
 The application will open at `http://localhost:5173`
 
 5. **Build for production**
+
 ```bash
 npm run build
 ```
@@ -391,12 +416,14 @@ npm run build
 ## 🌐 Deployment
 
 ### Frontend (Netlify)
+
 1. Connect your GitHub repository to Netlify
 2. Build command: `npm run build`
 3. Publish directory: `dist`
 4. The `_redirects` file in `public/` handles client-side routing
 
 ### Backend (Render)
+
 - Deployed at: https://garmentix-server.onrender.com
 - Environment variables configured in Render dashboard
 - MongoDB connection string
@@ -482,6 +509,7 @@ This project is created for educational and portfolio purposes.
 ## 📞 Support
 
 For any queries or issues, please contact:
+
 - **Email:** md.saadman.fuad@gmail.com
 - **Create an issue:** [GitHub Issues](https://github.com/MD-Saadman-Fuad/Garmentix-client/issues)
 
@@ -491,7 +519,7 @@ For any queries or issues, please contact:
 
 ---
 
-*Built with ❤️ by MD Saadman Fuad*
+_Built with ❤️ by MD Saadman Fuad_
 
 ### Server `.env`
 
@@ -506,11 +534,11 @@ ACCESS_TOKEN_SECRET=your_jwt_secret
 ## 🧪 Demo Credentials
 
 ```
-Admin Email: admin@email.com  
-Admin Password: ********  
+Admin Email: admin@email.com
+Admin Password: ********
 
-Manager Email: manager@email.com  
-Manager Password: ********  
+Manager Email: manager@email.com
+Manager Password: ********
 ```
 
 ---
@@ -566,11 +594,11 @@ npm run dev
 **Role:** MERN Stack Frontend Developer
 **Specialization:**
 
-* React UI Engineering
-* Authentication Systems
-* Dashboard Development
-* API Integration
-* UX-Focused Responsive Design
+- React UI Engineering
+- Authentication Systems
+- Dashboard Development
+- API Integration
+- UX-Focused Responsive Design
 
 > 🔥 Passionate about building **real-world scalable applications** with clean architecture and production-ready features.
 

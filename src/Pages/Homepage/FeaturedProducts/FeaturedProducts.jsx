@@ -9,7 +9,7 @@ const FeaturedProducts = () => {
         fetch(`${import.meta.env.VITE_backend_url}/products/featured`)
             .then(res => res.json())
             .then(data => {
-                setFeaturedProducts(data);
+                setFeaturedProducts(data.reverse());
                 setLoading(false);
             })
             .catch(error => {
@@ -37,7 +37,7 @@ const FeaturedProducts = () => {
 
             {/* Products Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {featuredProducts.map(product => (
+                {featuredProducts.slice(0, 8).map(product => (
                     <ProductsCard key={product._id} product={product} />
                 ))}
             </div>

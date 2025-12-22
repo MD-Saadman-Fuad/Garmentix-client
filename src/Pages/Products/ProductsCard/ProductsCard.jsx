@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router';
 import useAuth from '../../../Hooks/useAuth';
 import Swal from 'sweetalert2';
@@ -284,22 +285,22 @@ const ProductsCard = ({ product }) => {
                 </div>
             </div>
 
-            {/* Order Modal - Outside the card */}
-            {showModal && (
-                <div className="modal modal-open z-50">
-                    <div className="modal-box max-w-3xl max-h-[90vh] overflow-y-auto">
+            {/* Order Modal - Rendered at body level using Portal */}
+            {showModal && createPortal(
+                <div className="modal modal-open fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="modal-box max-w-3xl max-h-[85vh] overflow-y-auto w-11/12 sm:w-full relative">
                         <button
                             onClick={() => setShowModal(false)}
-                            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                            className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-10"
                         >
                             ✕
                         </button>
 
-                        <h3 className="font-bold text-3xl mb-6 text-center" style={{ color: '#5089e6' }}>
+                        <h3 className="font-bold text-2xl sm:text-3xl mb-4 sm:mb-6 text-center pr-8" style={{ color: '#5089e6' }}>
                             Order Form
                         </h3>
 
-                        <form onSubmit={handleSubmitOrder} className="space-y-4">
+                        <form onSubmit={handleSubmitOrder} className="space-y-3 sm:space-y-4">
                             {/* Email - Read Only */}
                             <div className="form-control">
                                 <label className="label">
@@ -491,7 +492,8 @@ const ProductsCard = ({ product }) => {
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </>
     );

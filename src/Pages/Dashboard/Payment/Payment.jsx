@@ -10,6 +10,7 @@ const Payment = () => {
     const navigate = useNavigate();
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
+    const [isProcessing, setIsProcessing] = React.useState(false);
 
     const { isLoading, data: orders, error } = useQuery({
         queryKey: ['orders', user?.email],
@@ -52,20 +53,30 @@ const Payment = () => {
             senderName: `${parcel.firstName || ''} ${parcel.lastName || ''}`.trim() || parcel.email,
         }
 
+        setIsProcessing(true);
+
         try {
             console.log('Sending payment info:', paymentInfo);
             const res = await axiosSecure.post('/create-checkout-session', paymentInfo);
-            console.log('Payment response:', res.data)
-            window.location.href = res.data.url;
+            console.log('Payment response:', res.data);
+
+            // Check if URL exists in response
+            if (res.data && res.data.url) {
+                window.location.href = res.data.url;
+            } else {
+                throw new Error('Payment URL not received from server');
+            }
         } catch (error) {
             console.error('Payment error:', error);
             console.error('Error response:', error.response?.data);
             console.error('Error status:', error.response?.status);
 
+            setIsProcessing(false);
+
             Swal.fire({
                 icon: 'error',
                 title: 'Payment Failed',
-                text: error.response?.data?.message || 'There was an error processing your payment. Please try again.',
+                text: error.response?.data?.message || error.message || 'There was an error processing your payment. Please try again.',
                 confirmButtonColor: '#5089e6'
             });
         }
@@ -231,6 +242,7 @@ const Payment = () => {
                         <button
                             onClick={() => navigate(-1)}
                             className="btn btn-outline flex-1"
+                            disabled={isProcessing}
                         >
                             Cancel
                         </button>
@@ -238,11 +250,21 @@ const Payment = () => {
                             onClick={handlePayment}
                             className="btn text-white flex-1"
                             style={{ backgroundColor: '#5089e6' }}
+                            disabled={isProcessing}
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
-                            </svg>
-                            Proceed to Pay ${parcel.totalPrice?.toFixed(2)}
+                            {isProcessing ? (
+                                <>
+                                    <span className="loading loading-spinner loading-sm"></span>
+                                    Processing...
+                                </>
+                            ) : (
+                                <>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+                                    </svg>
+                                    Proceed to Pay ${parcel.totalPrice?.toFixed(2)}
+                                </>
+                            )}
                         </button>
                     </div>
 
