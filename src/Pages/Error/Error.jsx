@@ -1,13 +1,20 @@
 import React from 'react';
-import Err from '../../assets/err.png';
+import Err from '../../assets/err.webp';
 import Navbar from '../../Shared/Navbar';
 import Footer from '../../Shared/Footer';
+
 const Error = () => {
     return (
         <div>
             <Navbar></Navbar>
             <div className='max-w-7xl mx-auto text-center my-10'>
-                <img src={Err} alt="Error" />
+                <img
+                    src={Err}
+                    alt="Page not found"
+                    loading="lazy"
+                    width={800}
+                    height={600}
+                />
                 <button className='btn btn-primary my-10' onClick={() => window.location.href = '/'}>Go Home</button>
             </div>
             <Footer></Footer>
@@ -15,4 +22,4 @@ const Error = () => {
     );
 };
 
-export default Error;
+export default Error;

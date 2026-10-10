@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useNavigate } from 'react-router';
 import useAuth from '../../../Hooks/useAuth';
+import useUserRole from '../../../Hooks/useUserRole';
 import Swal from 'sweetalert2';
 
 const ProductsCard = ({ product }) => {
@@ -10,8 +11,6 @@ const ProductsCard = ({ product }) => {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
-    const [userRole, setUserRole] = useState(null);
-    const [userStatus, setUserStatus] = useState(null);
     const [orderQuantity, setOrderQuantity] = useState('');
     const [orderPrice, setOrderPrice] = useState(0);
     const [formData, setFormData] = useState({
@@ -22,18 +21,8 @@ const ProductsCard = ({ product }) => {
         additionalNotes: ''
     });
 
-    // Fetch user role from database
-    useEffect(() => {
-        if (user?.email) {
-            fetch(`${import.meta.env.VITE_backend_url}/users/${user.email}`)
-                .then(res => res.json())
-                .then(data => {
-                    setUserRole(data.role);
-                    setUserStatus(data.status);
-                })
-                .catch(err => console.error(err));
-        }
-    }, [user]);
+    // useUserRole caches the result — all cards share ONE API call (fixes N+1 problem)
+    const { userRole, userStatus } = useUserRole();
 
     // Calculate order price when quantity changes
     useEffect(() => {
@@ -214,6 +203,9 @@ const ProductsCard = ({ product }) => {
                         src={image}
                         alt={productName}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        loading="lazy"
+                        width={400}
+                        height={256}
                     />
                     <div className="absolute top-4 right-4 badge badge-primary text-white font-semibold px-4 py-3">
                         {category}
@@ -499,4 +491,5 @@ const ProductsCard = ({ product }) => {
     );
 };
 
-export default ProductsCard;
+// memo prevents re-renders when parent re-renders but product prop hasn't changed
+export default memo(ProductsCard);

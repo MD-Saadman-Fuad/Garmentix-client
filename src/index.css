@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+/* Google Fonts loaded via <link> in index.html for better performance */
 @import "tailwindcss";
 @plugin "daisyui";
 
